@@ -19,6 +19,7 @@ BankAccount* BankService::createAccount(std::string ownerName) {
 }
 
 void BankService::transferMoney(BankAccount *transferer, BankAccount *transferee, double amount) {
+    std::unique_lock<std::mutex> transferLock(this->operationMutex);
     OperationLog* transfererOperationLog = transferer->getOperationLog();
     OperationLog* transfereeOperationLog = transferee->getOperationLog();
     auto* transferOperation = new Operation(transferer->getOwner(), transferee->getOwner(), amount);
@@ -36,4 +37,3 @@ std::vector<BankAccount*> BankService::getAccounts() {
 BankService::~BankService() {
 
 }
-

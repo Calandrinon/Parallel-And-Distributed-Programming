@@ -15,6 +15,8 @@ class BankUI {
     public:
         BankUI(BankService* service);
         void runExample();
+        int readNumberOfThreads();
+        void runValidThreadConfigurationWithLocks();
 };
 
 
