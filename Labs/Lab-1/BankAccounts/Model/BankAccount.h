@@ -14,23 +14,16 @@ class BankAccount {
         std::time_t creationDate;
 
     public:
-        BankAccount();
-        void transferToAccount(BankAccount* anotherAccount, double amount);
+        BankAccount(std::string owner);
         double getBalance();
         void setBalance(double balance);
         ~BankAccount();
-
-    OperationLog *getOperationLog() const;
-
-    void setOperationLog(OperationLog *operationLog);
-
-    const std::string &getOwner() const;
-
-    void setOwner(const std::string &owner);
-
-    time_t getCreationDate() const;
-
-    void setCreationDate(time_t creationDate);
+        OperationLog* getOperationLog() const;
+        void setOperationLog(OperationLog *operationLog);
+        const std::string &getOwner() const;
+        void setOwner(const std::string &owner);
+        time_t getCreationDate() const;
+        void setCreationDate(time_t creationDate);
 };
 
 

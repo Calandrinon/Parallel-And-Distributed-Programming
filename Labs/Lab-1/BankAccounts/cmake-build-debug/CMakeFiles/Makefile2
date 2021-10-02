@@ -81,12 +81,12 @@ clean: CMakeFiles/BankAccounts.dir/clean
 CMakeFiles/BankAccounts.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5 "Built target BankAccounts"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target BankAccounts"
 .PHONY : CMakeFiles/BankAccounts.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/BankAccounts.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles 9
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/BankAccounts.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/BankAccounts.dir/rule

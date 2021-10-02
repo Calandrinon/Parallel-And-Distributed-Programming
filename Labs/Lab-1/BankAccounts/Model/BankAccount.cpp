@@ -4,7 +4,8 @@
 
 #include "BankAccount.h"
 
-BankAccount::BankAccount() {
+BankAccount::BankAccount(std::string owner) {
+    this->owner = owner;
     this->balance = 0;
     this->operationLog = new OperationLog();
     this->creationDate = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -20,13 +21,6 @@ double BankAccount::getBalance() {
 
 void BankAccount::setBalance(double balance) {
     this->balance = balance;
-}
-
-void BankAccount::transferToAccount(BankAccount *anotherAccount, double amount) {
-    anotherAccount->setBalance(anotherAccount->getBalance() + amount);
-    this->operationLog->addOperation(new Operation(this->getOwner(), anotherAccount->getOwner(), amount));
-    this->balance -= amount;
-    anotherAccount->getOperationLog()->addOperation(new Operation(this->getOwner(), anotherAccount->getOwner(), amount));
 }
 
 OperationLog *BankAccount::getOperationLog() const {

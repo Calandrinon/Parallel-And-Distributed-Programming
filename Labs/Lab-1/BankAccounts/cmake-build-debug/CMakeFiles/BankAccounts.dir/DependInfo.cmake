@@ -9,8 +9,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankAccount.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/Model/BankAccount.cpp.o"
+  "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankDetailsState.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o"
   "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/Operation.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/Model/Operation.cpp.o"
   "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/OperationLog.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.o"
+  "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/BankAccountRepository.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o"
+  "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o"
+  "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o"
   "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/main.cpp" "/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles/BankAccounts.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

@@ -153,6 +153,30 @@ Model/BankAccount.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Model/BankAccount.cpp.s
 .PHONY : Model/BankAccount.cpp.s
 
+Model/BankDetailsState.o: Model/BankDetailsState.cpp.o
+.PHONY : Model/BankDetailsState.o
+
+# target to build an object file
+Model/BankDetailsState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o
+.PHONY : Model/BankDetailsState.cpp.o
+
+Model/BankDetailsState.i: Model/BankDetailsState.cpp.i
+.PHONY : Model/BankDetailsState.i
+
+# target to preprocess a source file
+Model/BankDetailsState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.i
+.PHONY : Model/BankDetailsState.cpp.i
+
+Model/BankDetailsState.s: Model/BankDetailsState.cpp.s
+.PHONY : Model/BankDetailsState.s
+
+# target to generate assembly for a file
+Model/BankDetailsState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.s
+.PHONY : Model/BankDetailsState.cpp.s
+
 Model/Operation.o: Model/Operation.cpp.o
 .PHONY : Model/Operation.o
 
@@ -201,6 +225,78 @@ Model/OperationLog.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.s
 .PHONY : Model/OperationLog.cpp.s
 
+Repository/BankAccountRepository.o: Repository/BankAccountRepository.cpp.o
+.PHONY : Repository/BankAccountRepository.o
+
+# target to build an object file
+Repository/BankAccountRepository.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o
+.PHONY : Repository/BankAccountRepository.cpp.o
+
+Repository/BankAccountRepository.i: Repository/BankAccountRepository.cpp.i
+.PHONY : Repository/BankAccountRepository.i
+
+# target to preprocess a source file
+Repository/BankAccountRepository.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.i
+.PHONY : Repository/BankAccountRepository.cpp.i
+
+Repository/BankAccountRepository.s: Repository/BankAccountRepository.cpp.s
+.PHONY : Repository/BankAccountRepository.s
+
+# target to generate assembly for a file
+Repository/BankAccountRepository.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.s
+.PHONY : Repository/BankAccountRepository.cpp.s
+
+Repository/Repository.o: Repository/Repository.cpp.o
+.PHONY : Repository/Repository.o
+
+# target to build an object file
+Repository/Repository.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o
+.PHONY : Repository/Repository.cpp.o
+
+Repository/Repository.i: Repository/Repository.cpp.i
+.PHONY : Repository/Repository.i
+
+# target to preprocess a source file
+Repository/Repository.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.i
+.PHONY : Repository/Repository.cpp.i
+
+Repository/Repository.s: Repository/Repository.cpp.s
+.PHONY : Repository/Repository.s
+
+# target to generate assembly for a file
+Repository/Repository.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.s
+.PHONY : Repository/Repository.cpp.s
+
+Service/BankService.o: Service/BankService.cpp.o
+.PHONY : Service/BankService.o
+
+# target to build an object file
+Service/BankService.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o
+.PHONY : Service/BankService.cpp.o
+
+Service/BankService.i: Service/BankService.cpp.i
+.PHONY : Service/BankService.i
+
+# target to preprocess a source file
+Service/BankService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Service/BankService.cpp.i
+.PHONY : Service/BankService.cpp.i
+
+Service/BankService.s: Service/BankService.cpp.s
+.PHONY : Service/BankService.s
+
+# target to generate assembly for a file
+Service/BankService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Service/BankService.cpp.s
+.PHONY : Service/BankService.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -237,12 +333,24 @@ help:
 	@echo "... Model/BankAccount.o"
 	@echo "... Model/BankAccount.i"
 	@echo "... Model/BankAccount.s"
+	@echo "... Model/BankDetailsState.o"
+	@echo "... Model/BankDetailsState.i"
+	@echo "... Model/BankDetailsState.s"
 	@echo "... Model/Operation.o"
 	@echo "... Model/Operation.i"
 	@echo "... Model/Operation.s"
 	@echo "... Model/OperationLog.o"
 	@echo "... Model/OperationLog.i"
 	@echo "... Model/OperationLog.s"
+	@echo "... Repository/BankAccountRepository.o"
+	@echo "... Repository/BankAccountRepository.i"
+	@echo "... Repository/BankAccountRepository.s"
+	@echo "... Repository/Repository.o"
+	@echo "... Repository/Repository.i"
+	@echo "... Repository/Repository.s"
+	@echo "... Service/BankService.o"
+	@echo "... Service/BankService.i"
+	@echo "... Service/BankService.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

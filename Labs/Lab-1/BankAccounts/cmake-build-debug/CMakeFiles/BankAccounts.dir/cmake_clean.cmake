@@ -2,8 +2,12 @@ file(REMOVE_RECURSE
   "BankAccounts"
   "BankAccounts.pdb"
   "CMakeFiles/BankAccounts.dir/Model/BankAccount.cpp.o"
+  "CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o"
   "CMakeFiles/BankAccounts.dir/Model/Operation.cpp.o"
   "CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.o"
+  "CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o"
+  "CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o"
+  "CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o"
   "CMakeFiles/BankAccounts.dir/main.cpp.o"
 )
 

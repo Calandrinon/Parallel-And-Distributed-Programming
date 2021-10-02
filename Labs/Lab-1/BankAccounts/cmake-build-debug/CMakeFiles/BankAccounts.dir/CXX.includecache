@@ -6,17 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankAccount.cpp
-BankAccount.h
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankAccount.h
-
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankAccount.h
 OperationLog.h
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/OperationLog.h
 
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/Operation.cpp
-Operation.h
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/Operation.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankDetailsState.cpp
+BankDetailsState.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankDetailsState.h
+
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankDetailsState.h
+
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/Model.h
+BankAccount.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankAccount.h
 
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/Operation.h
 iostream
@@ -26,13 +28,29 @@ ctime
 chrono
 -
 
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/OperationLog.cpp
-OperationLog.h
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/OperationLog.h
-
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/OperationLog.h
 vector
 -
 Operation.h
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/Operation.h
+
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/BankAccountRepository.cpp
+BankAccountRepository.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/BankAccountRepository.h
+
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/BankAccountRepository.h
+Repository.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.h
+../Model/BankAccount.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankAccount.h
+../Model/BankDetailsState.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankDetailsState.h
+
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.h
+iostream
+-
+vector
+-
+../Model/Model.h
+/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/Model.h
 

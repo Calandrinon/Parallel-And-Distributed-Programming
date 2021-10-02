@@ -6,6 +6,9 @@ CMakeFiles/BankAccounts.dir/Model/BankAccount.cpp.o: \
  ../Model/BankAccount.h \
  ../Model/Operation.h \
  ../Model/OperationLog.h
+CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o: \
+ ../Model/BankDetailsState.cpp \
+ ../Model/BankDetailsState.h
 CMakeFiles/BankAccounts.dir/Model/Operation.cpp.o: \
  ../Model/Operation.cpp \
  ../Model/Operation.h
@@ -13,5 +16,21 @@ CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.o: \
  ../Model/Operation.h \
  ../Model/OperationLog.cpp \
  ../Model/OperationLog.h
+CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o: \
+ ../Model/BankAccount.h \
+ ../Model/BankDetailsState.h \
+ ../Model/Model.h \
+ ../Model/Operation.h \
+ ../Model/OperationLog.h \
+ ../Repository/BankAccountRepository.cpp \
+ ../Repository/BankAccountRepository.h \
+ ../Repository/Repository.h
+CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o: \
+ ../Model/BankAccount.h \
+ ../Model/Model.h \
+ ../Model/Operation.h \
+ ../Model/OperationLog.h \
+ ../Repository/Repository.cpp \
+ ../Repository/Repository.h
 CMakeFiles/BankAccounts.dir/main.cpp.o: \
  ../main.cpp
