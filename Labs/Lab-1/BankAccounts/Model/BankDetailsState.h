@@ -11,6 +11,7 @@
 class BankDetailsState {
     private:
         int transactionSerialNumber, accountSerialNumber;
+        std::mutex serialNumberMutex;
 
     public:
         BankDetailsState();

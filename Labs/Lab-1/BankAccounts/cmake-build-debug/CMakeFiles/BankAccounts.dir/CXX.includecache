@@ -48,13 +48,3 @@ thread
 ../Service/BankService.h
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.h
 
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/main.cpp
-iostream
--
-Repository/BankAccountRepository.h
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/BankAccountRepository.h
-Service/BankService.h
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.h
-UI/BankUI.h
-/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/UI/BankUI.h
-

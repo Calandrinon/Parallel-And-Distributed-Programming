@@ -22,6 +22,7 @@ void BankDetailsState::setTransactionSerialNumber(int transactionSerialNumber) {
 }
 
 void BankDetailsState::incrementTransactionSerialNumber() {
+    std::unique_lock serialNumberLock(this->serialNumberMutex);
     this->transactionSerialNumber++;
 }
 

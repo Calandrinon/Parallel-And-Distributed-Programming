@@ -47,6 +47,8 @@ void BankUI::runValidThreadConfigurationWithLocks() {
     std::cout << "Starting the transactions...\n";
 
     std::vector<std::thread> threads;
+    std::vector<BankAccount*> accounts;
+
 
     BankAccount* jack = this->service->createAccount("Jack");
     BankAccount* jill = this->service->createAccount("Jill");
@@ -66,10 +68,10 @@ void BankUI::runValidThreadConfigurationWithLocks() {
     };
 
     for (int thread_index = 0; thread_index < numberOfThreads; thread_index++) {
-        threads.push_back(std::thread(thread_lambda, jack, jill, 1));
-        threads.push_back(std::thread(thread_lambda, jill, jack, 1));
-        threads.push_back(std::thread(thread_lambda, jack, jill, 1));
-        threads.push_back(std::thread(thread_lambda, jill, jack, 1));
+        threads.emplace_back(thread_lambda, jack, jill, 1);
+        threads.emplace_back(thread_lambda, jill, jack, 1);
+        threads.emplace_back(thread_lambda, jack, jill, 1);
+        threads.emplace_back(thread_lambda, jill, jack, 1);
     }
 
     for (std::thread& thread: threads) {
@@ -81,3 +83,6 @@ void BankUI::runValidThreadConfigurationWithLocks() {
 
     std::cout << "Joined all threads.\n";
 }
+
+
+
