@@ -8,7 +8,7 @@
 
 class BankDetailsState {
     private:
-        int transactionSerialNumber;
+        int transactionSerialNumber, accountSerialNumber;
 
     public:
         BankDetailsState();
@@ -20,6 +20,10 @@ class BankDetailsState {
         void setTransactionSerialNumber(int transactionSerialNumber);
 
         void incrementTransactionSerialNumber();
+
+        int getAccountSerialNumber() const;
+
+        void setAccountSerialNumber(int accountSerialNumber);
 };
 
 

@@ -5,7 +5,8 @@
 #include "BankDetailsState.h"
 
 BankDetailsState::BankDetailsState() {
-
+    this->transactionSerialNumber = 0;
+    this->accountSerialNumber = 0;
 }
 
 BankDetailsState::~BankDetailsState() {
@@ -22,4 +23,12 @@ void BankDetailsState::setTransactionSerialNumber(int transactionSerialNumber) {
 
 void BankDetailsState::incrementTransactionSerialNumber() {
     this->transactionSerialNumber++;
+}
+
+int BankDetailsState::getAccountSerialNumber() const {
+    return this->accountSerialNumber;
+}
+
+void BankDetailsState::setAccountSerialNumber(int accountSerialNumber) {
+    this->accountSerialNumber = accountSerialNumber;
 }

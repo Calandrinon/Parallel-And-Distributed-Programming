@@ -46,3 +46,11 @@ time_t BankAccount::getCreationDate() const {
 void BankAccount::setCreationDate(time_t creationDate) {
     BankAccount::creationDate = creationDate;
 }
+
+int BankAccount::getId() {
+    return this->id;
+}
+
+void BankAccount::setId(int id) {
+    this->id = id;
+}

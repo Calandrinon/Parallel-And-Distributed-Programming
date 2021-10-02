@@ -115,16 +115,16 @@
 		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/BankAccountRepository.h">
 			<Option target="BankAccounts"/>
 		</Unit>
-		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.cpp">
-			<Option target="BankAccounts"/>
-		</Unit>
-		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.h">
-			<Option target="BankAccounts"/>
-		</Unit>
 		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.cpp">
 			<Option target="BankAccounts"/>
 		</Unit>
 		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.h">
+			<Option target="BankAccounts"/>
+		</Unit>
+		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/UI/BankUI.cpp">
+			<Option target="BankAccounts"/>
+		</Unit>
+		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/UI/BankUI.h">
 			<Option target="BankAccounts"/>
 		</Unit>
 		<Unit filename="/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/main.cpp">

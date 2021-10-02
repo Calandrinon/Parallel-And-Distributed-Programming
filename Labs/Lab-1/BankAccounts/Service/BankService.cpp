@@ -8,9 +8,14 @@ BankService::BankService(BankAccountRepository *repository) {
     this->repository = repository;
 }
 
-void BankService::createAccount(std::string ownerName) {
+BankAccount* BankService::createAccount(std::string ownerName) {
     BankAccount* newAccount = new BankAccount(ownerName);
+    int accountSerialNumber = this->repository->getBankDetailsState()->getAccountSerialNumber() + 1;
+    this->repository->getBankDetailsState()->setAccountSerialNumber(accountSerialNumber);
+    newAccount->setId(accountSerialNumber);
     this->repository->save(newAccount);
+
+    return newAccount;
 }
 
 void BankService::transferMoney(BankAccount *transferer, BankAccount *transferee, double amount) {
@@ -22,6 +27,10 @@ void BankService::transferMoney(BankAccount *transferer, BankAccount *transferee
 
     transferer->setBalance(transferer->getBalance() - amount);
     transferee->setBalance(transferee->getBalance() + amount);
+}
+
+std::vector<BankAccount*> BankService::getAccounts() {
+    return this->repository->getContainer();
 }
 
 BankService::~BankService() {

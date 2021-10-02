@@ -8,6 +8,7 @@
 
 class BankAccount {
     private:
+        int id;
         double balance;
         OperationLog* operationLog;
         std::string owner;
@@ -24,6 +25,8 @@ class BankAccount {
         void setOwner(const std::string &owner);
         time_t getCreationDate() const;
         void setCreationDate(time_t creationDate);
+        int getId();
+        void setId(int id);
 };
 
 

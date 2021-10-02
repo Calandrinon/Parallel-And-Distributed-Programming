@@ -249,30 +249,6 @@ Repository/BankAccountRepository.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.s
 .PHONY : Repository/BankAccountRepository.cpp.s
 
-Repository/Repository.o: Repository/Repository.cpp.o
-.PHONY : Repository/Repository.o
-
-# target to build an object file
-Repository/Repository.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o
-.PHONY : Repository/Repository.cpp.o
-
-Repository/Repository.i: Repository/Repository.cpp.i
-.PHONY : Repository/Repository.i
-
-# target to preprocess a source file
-Repository/Repository.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.i
-.PHONY : Repository/Repository.cpp.i
-
-Repository/Repository.s: Repository/Repository.cpp.s
-.PHONY : Repository/Repository.s
-
-# target to generate assembly for a file
-Repository/Repository.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.s
-.PHONY : Repository/Repository.cpp.s
-
 Service/BankService.o: Service/BankService.cpp.o
 .PHONY : Service/BankService.o
 
@@ -296,6 +272,30 @@ Service/BankService.s: Service/BankService.cpp.s
 Service/BankService.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/Service/BankService.cpp.s
 .PHONY : Service/BankService.cpp.s
+
+UI/BankUI.o: UI/BankUI.cpp.o
+.PHONY : UI/BankUI.o
+
+# target to build an object file
+UI/BankUI.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o
+.PHONY : UI/BankUI.cpp.o
+
+UI/BankUI.i: UI/BankUI.cpp.i
+.PHONY : UI/BankUI.i
+
+# target to preprocess a source file
+UI/BankUI.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.i
+.PHONY : UI/BankUI.cpp.i
+
+UI/BankUI.s: UI/BankUI.cpp.s
+.PHONY : UI/BankUI.s
+
+# target to generate assembly for a file
+UI/BankUI.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BankAccounts.dir/build.make CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.s
+.PHONY : UI/BankUI.cpp.s
 
 main.o: main.cpp.o
 .PHONY : main.o
@@ -345,12 +345,12 @@ help:
 	@echo "... Repository/BankAccountRepository.o"
 	@echo "... Repository/BankAccountRepository.i"
 	@echo "... Repository/BankAccountRepository.s"
-	@echo "... Repository/Repository.o"
-	@echo "... Repository/Repository.i"
-	@echo "... Repository/Repository.s"
 	@echo "... Service/BankService.o"
 	@echo "... Service/BankService.i"
 	@echo "... Service/BankService.s"
+	@echo "... UI/BankUI.o"
+	@echo "... UI/BankUI.i"
+	@echo "... UI/BankUI.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

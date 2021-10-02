@@ -19,18 +19,33 @@ CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.o: \
 CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o: \
  ../Model/BankAccount.h \
  ../Model/BankDetailsState.h \
- ../Model/Model.h \
  ../Model/Operation.h \
  ../Model/OperationLog.h \
  ../Repository/BankAccountRepository.cpp \
- ../Repository/BankAccountRepository.h \
- ../Repository/Repository.h
-CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o: \
+ ../Repository/BankAccountRepository.h
+CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o: \
  ../Model/BankAccount.h \
- ../Model/Model.h \
+ ../Model/BankDetailsState.h \
  ../Model/Operation.h \
  ../Model/OperationLog.h \
- ../Repository/Repository.cpp \
- ../Repository/Repository.h
+ ../Repository/BankAccountRepository.h \
+ ../Service/BankService.cpp \
+ ../Service/BankService.h
+CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o: \
+ ../Model/BankAccount.h \
+ ../Model/BankDetailsState.h \
+ ../Model/Operation.h \
+ ../Model/OperationLog.h \
+ ../Repository/BankAccountRepository.h \
+ ../Service/BankService.h \
+ ../UI/BankUI.cpp \
+ ../UI/BankUI.h
 CMakeFiles/BankAccounts.dir/main.cpp.o: \
+ ../Model/BankAccount.h \
+ ../Model/BankDetailsState.h \
+ ../Model/Operation.h \
+ ../Model/OperationLog.h \
+ ../Repository/BankAccountRepository.h \
+ ../Service/BankService.h \
+ ../UI/BankUI.h \
  ../main.cpp

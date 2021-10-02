@@ -6,8 +6,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/BankAccounts.dir/Model/Operation.cpp.o"
   "CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.o"
   "CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o"
-  "CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o"
   "CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o"
+  "CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o"
   "CMakeFiles/BankAccounts.dir/main.cpp.o"
 )
 

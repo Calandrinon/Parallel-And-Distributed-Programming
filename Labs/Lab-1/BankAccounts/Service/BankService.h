@@ -13,8 +13,9 @@ class BankService {
 
     public:
         BankService(BankAccountRepository* repository);
-        void createAccount(std::string ownerName);
+        BankAccount* createAccount(std::string ownerName);
         void transferMoney(BankAccount* transferer, BankAccount* transferee, double amount);
+        std::vector<BankAccount*> getAccounts();
         ~BankService();
 };
 

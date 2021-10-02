@@ -131,22 +131,9 @@ CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/BankAccountRepository.cpp -o CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.s
 
-CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o: CMakeFiles/BankAccounts.dir/flags.make
-CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o: ../Repository/Repository.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o -c /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.cpp
-
-CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.cpp > CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.i
-
-CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Repository/Repository.cpp -o CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.s
-
 CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o: CMakeFiles/BankAccounts.dir/flags.make
 CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o: ../Model/BankDetailsState.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o -c /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Model/BankDetailsState.cpp
 
 CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.i: cmake_force
@@ -159,7 +146,7 @@ CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.s: cmake_force
 
 CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o: CMakeFiles/BankAccounts.dir/flags.make
 CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o: ../Service/BankService.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o -c /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.cpp
 
 CMakeFiles/BankAccounts.dir/Service/BankService.cpp.i: cmake_force
@@ -170,6 +157,19 @@ CMakeFiles/BankAccounts.dir/Service/BankService.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BankAccounts.dir/Service/BankService.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.cpp -o CMakeFiles/BankAccounts.dir/Service/BankService.cpp.s
 
+CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o: CMakeFiles/BankAccounts.dir/flags.make
+CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o: ../UI/BankUI.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o -c /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/UI/BankUI.cpp
+
+CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/UI/BankUI.cpp > CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.i
+
+CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/UI/BankUI.cpp -o CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.s
+
 # Object files for target BankAccounts
 BankAccounts_OBJECTS = \
 "CMakeFiles/BankAccounts.dir/main.cpp.o" \
@@ -177,9 +177,9 @@ BankAccounts_OBJECTS = \
 "CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.o" \
 "CMakeFiles/BankAccounts.dir/Model/Operation.cpp.o" \
 "CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o" \
-"CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o" \
 "CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o" \
-"CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o"
+"CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o" \
+"CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o"
 
 # External object files for target BankAccounts
 BankAccounts_EXTERNAL_OBJECTS =
@@ -189,9 +189,9 @@ BankAccounts: CMakeFiles/BankAccounts.dir/Model/BankAccount.cpp.o
 BankAccounts: CMakeFiles/BankAccounts.dir/Model/OperationLog.cpp.o
 BankAccounts: CMakeFiles/BankAccounts.dir/Model/Operation.cpp.o
 BankAccounts: CMakeFiles/BankAccounts.dir/Repository/BankAccountRepository.cpp.o
-BankAccounts: CMakeFiles/BankAccounts.dir/Repository/Repository.cpp.o
 BankAccounts: CMakeFiles/BankAccounts.dir/Model/BankDetailsState.cpp.o
 BankAccounts: CMakeFiles/BankAccounts.dir/Service/BankService.cpp.o
+BankAccounts: CMakeFiles/BankAccounts.dir/UI/BankUI.cpp.o
 BankAccounts: CMakeFiles/BankAccounts.dir/build.make
 BankAccounts: CMakeFiles/BankAccounts.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable BankAccounts"
