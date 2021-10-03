@@ -14,8 +14,9 @@ class BankService {
         BankAccountRepository* repository;
         std::mutex operationMutex;
         std::vector<std::thread> threads;
+        std::default_random_engine randomEngine;
 
-    public:
+public:
         BankService(BankAccountRepository* repository);
         BankAccount* createAccount(std::string ownerName, double balance);
         void transferMoney(BankAccount* transferer, BankAccount* transferee, double amount);
@@ -25,6 +26,7 @@ class BankService {
         BankAccount* pickRandomAccount();
         double getTotalAccountsBalance();
         std::string generateRandomString(int length);
+        void generateRandomOperations();
         ~BankService();
 };
 

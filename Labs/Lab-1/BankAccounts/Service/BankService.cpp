@@ -3,11 +3,11 @@
 //
 
 #include "BankService.h"
-#include <cstdlib>
-#include <unistd.h>
 
 BankService::BankService(BankAccountRepository *repository) {
     this->repository = repository;
+    unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
+    this->randomEngine = std::default_random_engine(seed);
 }
 
 BankAccount* BankService::createAccount(std::string ownerName, double balance) {
@@ -47,19 +47,17 @@ std::string BankService::generateRandomString(int length) {
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             "abcdefghijklmnopqrstuvwxyz";
 
-    unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
-    std::default_random_engine randomEngine(seed);
     randomString.reserve(length);
 
     for (int i = 0; i < length; ++i)
-        randomString += alphabet[randomEngine() % (sizeof(alphabet) - 1)];
+        randomString += alphabet[this->randomEngine() % (sizeof(alphabet) - 1)];
 
     return randomString;
 }
 
 void BankService::createRandomAccounts(int quantity) {
     for (int accountIndex = 0; accountIndex < quantity; accountIndex++) {
-        this->createAccount(generateRandomString(30), rand() % 10000 + 1000);
+        this->createAccount(generateRandomString(5), this->randomEngine() % 10000 + 1000);
     }
 }
 
@@ -73,36 +71,33 @@ double BankService::getTotalAccountsBalance() {
     return totalBalance;
 }
 
-void BankService::createRandomMultithreadedOperations(int numberOfThreads) {
-    auto thread_lambda = [this](BankAccount* transferer, BankAccount* transferee, double sum) {
-        this->transferMoney(transferer, transferee, sum);
-        std::cout << "Transferred " << sum << "$ from " << transferer->getOwner() << " to " << transferee->getOwner() << "\n";
-    };
+void BankService::generateRandomOperations() {
+    int numberOfOperations = 100000 + this->randomEngine() % 100000;
 
-    for (int thread_index = 0; thread_index < numberOfThreads; thread_index++) {
+    for (int operationIndex = 0; operationIndex < numberOfOperations; operationIndex++) {
         BankAccount* transferrer = this->pickRandomAccount();
         BankAccount* transferree = this->pickRandomAccount();
-        while (transferrer == transferree) {
-            BankAccount* transferrer = this->pickRandomAccount();
-            BankAccount* transferree = this->pickRandomAccount();
-        }
-        threads.emplace_back(thread_lambda, transferrer, transferree, rand() % 100);
+        double sum = this->randomEngine() % 100 + 1;
+        this->transferMoney(transferrer, transferree, sum);
     }
+}
 
-    for (std::thread& thread: threads) {
+void BankService::createRandomMultithreadedOperations(int numberOfThreads) {
+    for (int thread_index = 0; thread_index < numberOfThreads; thread_index++)
+        threads.emplace_back([this]() {
+            this->generateRandomOperations();
+        });
+
+    for (std::thread& thread: threads)
         thread.join();
-    }
 }
 
 BankAccount* BankService::pickRandomAccount() {
-    unsigned seed = std::chrono::steady_clock::now().time_since_epoch().count();
-    std::default_random_engine randomEngine(seed);
     std::vector<BankAccount*> accounts = this->repository->getContainer();
-    int randomIndex = randomEngine() % accounts.size();
+    int randomIndex = this->randomEngine() % accounts.size();
 
     return accounts[randomIndex];
 }
-
 
 BankService::~BankService() {
 

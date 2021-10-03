@@ -83,7 +83,7 @@ void BankUI::runValidThreadConfigurationWithLocks() {
 void BankUI::run() {
     std::cout << "Starting the transactions...\n";
     std::vector<std::thread> threads;
-    int numberOfThreads = 8;// this->readNumberOfThreads();
+    int numberOfThreads = 8;
 
     this->service->createRandomAccounts(100);
     double totalBalanceBeforeOperations = this->service->getTotalAccountsBalance();
@@ -91,9 +91,12 @@ void BankUI::run() {
     for (BankAccount* account: this->service->getAccounts()) {
         std::cout << "Account ID: " << account->getId() << "; Account owner: " << account->getOwner() << "; Balance: " << account->getBalance() << ";\n";
     }
+    std::cout << "The total balance before the operations: " << totalBalanceBeforeOperations << "\n";
 
     this->service->createRandomMultithreadedOperations(numberOfThreads);
     double totalBalanceAfterOperations = this->service->getTotalAccountsBalance();
+
+    std::cout << "The total balance after the operations: " << totalBalanceAfterOperations << "\n";
 
     if (totalBalanceBeforeOperations != totalBalanceAfterOperations) {
         std::cout << "The total balance before the operations differs from the current one!\n";

@@ -37,10 +37,6 @@ Operation.h
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.cpp
 BankService.h
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.h
-cstdlib
--
-unistd.h
--
 
 /home/calandrinon/Documents/Repos/Parallel-And-Distributed-Programming/Labs/Lab-1/BankAccounts/Service/BankService.h
 ../Repository/BankAccountRepository.h
