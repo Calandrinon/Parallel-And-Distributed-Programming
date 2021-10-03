@@ -6,18 +6,25 @@
 #define BANKACCOUNTS_BANKSERVICE_H
 
 #include "../Repository/BankAccountRepository.h"
+#include <thread>
+#include <random>
 
 class BankService {
     private:
         BankAccountRepository* repository;
         std::mutex operationMutex;
+        std::vector<std::thread> threads;
 
     public:
         BankService(BankAccountRepository* repository);
-        BankAccount* createAccount(std::string ownerName);
+        BankAccount* createAccount(std::string ownerName, double balance);
         void transferMoney(BankAccount* transferer, BankAccount* transferee, double amount);
         std::vector<BankAccount*> getAccounts();
-        std::mutex getOperationMutex();
+        void createRandomAccounts(int quantity);
+        void createRandomMultithreadedOperations(int numberOfThreads);
+        BankAccount* pickRandomAccount();
+        double getTotalAccountsBalance();
+        std::string generateRandomString(int length);
         ~BankService();
 };
 

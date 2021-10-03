@@ -4,6 +4,7 @@
 
 #include "BankUI.h"
 #include <thread>
+#include <random>
 
 BankUI::BankUI(BankService *service) {
     this->service = service;
@@ -11,10 +12,8 @@ BankUI::BankUI(BankService *service) {
 
 void BankUI::runExample() {
     std::cout << "BankUI started successfully.\n";
-    BankAccount* jack = this->service->createAccount("Jack");
-    BankAccount* jill = this->service->createAccount("Jill");
-    jack->setBalance(1000);
-    jill->setBalance(1000);
+    BankAccount* jack = this->service->createAccount("Jack", 1000);
+    BankAccount* jill = this->service->createAccount("Jill", 1000);
 
     for (BankAccount* account: this->service->getAccounts()) {
         std::cout << "Account ID: " << account->getId() << "; Account owner: " << account->getOwner() << ";\n";
@@ -47,13 +46,10 @@ void BankUI::runValidThreadConfigurationWithLocks() {
     std::cout << "Starting the transactions...\n";
 
     std::vector<std::thread> threads;
-    std::vector<BankAccount*> accounts;
-
-
-    BankAccount* jack = this->service->createAccount("Jack");
-    BankAccount* jill = this->service->createAccount("Jill");
 
     int numberOfThreads = 1000;// this->readNumberOfThreads();
+    BankAccount* jack = this->service->createAccount("Jack", numberOfThreads);
+    BankAccount* jill = this->service->createAccount("Jill", numberOfThreads);
 
     jack->setBalance(numberOfThreads);
     jill->setBalance(numberOfThreads);
@@ -84,5 +80,25 @@ void BankUI::runValidThreadConfigurationWithLocks() {
     std::cout << "Joined all threads.\n";
 }
 
+void BankUI::run() {
+    std::cout << "Starting the transactions...\n";
+    std::vector<std::thread> threads;
+    int numberOfThreads = 8;// this->readNumberOfThreads();
 
+    this->service->createRandomAccounts(100);
+    double totalBalanceBeforeOperations = this->service->getTotalAccountsBalance();
+
+    for (BankAccount* account: this->service->getAccounts()) {
+        std::cout << "Account ID: " << account->getId() << "; Account owner: " << account->getOwner() << "; Balance: " << account->getBalance() << ";\n";
+    }
+
+    this->service->createRandomMultithreadedOperations(numberOfThreads);
+    double totalBalanceAfterOperations = this->service->getTotalAccountsBalance();
+
+    if (totalBalanceBeforeOperations != totalBalanceAfterOperations) {
+        std::cout << "The total balance before the operations differs from the current one!\n";
+    } else {
+        std::cout << "The total balance before the operations is identical to the current one.\n";
+    }
+}
 

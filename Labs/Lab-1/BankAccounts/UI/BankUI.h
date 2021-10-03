@@ -17,6 +17,7 @@ class BankUI {
         void runExample();
         int readNumberOfThreads();
         void runValidThreadConfigurationWithLocks();
+        void run();
 };
 
 
