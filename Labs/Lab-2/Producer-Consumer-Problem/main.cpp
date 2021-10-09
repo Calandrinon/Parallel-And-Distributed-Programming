@@ -1,6 +1,6 @@
 #include <iostream>
 #include <thread>
-#include <vector>
+#include <deque>
 #include <fstream>
 #include <cstdlib>
 #include <cstdio>
@@ -10,7 +10,7 @@
 
 const int maximumBufferSize = 100;
 std::ifstream in("../vectors.txt");
-std::vector<int> productsBuffer;
+std::deque<int> productsBuffer;
 int sum = 0;
 std::mutex mutex;
 std::condition_variable conditionVariable;
@@ -37,8 +37,8 @@ void sumConsumer() {
         conditionVariable.wait_for(uniqueLock, std::chrono::milliseconds(3000), []() {return !productsBuffer.empty();});
         if (productsBuffer.empty())
             return;
-        sum += productsBuffer.back();
-        productsBuffer.pop_back();
+        sum += productsBuffer.front();
+        productsBuffer.pop_front();
         uniqueLock.unlock();
         conditionVariable.notify_one();
         std::cout << "Sum: " << sum <<"\n";
