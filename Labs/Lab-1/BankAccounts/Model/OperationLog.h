@@ -6,6 +6,7 @@
 #define BANKACCOUNTS_OPERATIONLOG_H
 #include <vector>
 #include "Operation.h"
+#include <mutex>
 
 
 class OperationLog {

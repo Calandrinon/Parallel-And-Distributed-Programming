@@ -2,6 +2,7 @@
 // Created by calandrinon on 10/2/21.
 //
 
+#include <map>
 #include "BankService.h"
 
 BankService::BankService(BankAccountRepository *repository) {
@@ -71,18 +72,38 @@ double BankService::getTotalAccountsBalance() {
     return totalBalance;
 }
 
-void BankService::generateRandomOperations() {
-    int numberOfOperations = 100000 + this->randomEngine() % 100000;
+int BankService::generateRandomOperations() {
+    int numberOfOperations = 100000;
 
     for (int operationIndex = 0; operationIndex < numberOfOperations; operationIndex++) {
         BankAccount* transferrer = this->pickRandomAccount();
         BankAccount* transferree = this->pickRandomAccount();
         double sum = this->randomEngine() % 100 + 1;
         this->transferMoney(transferrer, transferree, sum);
+        this->repository->addGlobalOperationRecord(new Operation(transferrer->getOwner(), transferree->getOwner(), sum));
+        this->repository->setNumberOfRecentlyExecutedOperations(this->repository->getNumberOfRecentlyExecutedOperations()+1);
+        /**
+        if (!(operationIndex % 100))
+            this->checkTransferLogsValidity(100);
+          **/
     }
+
+    return numberOfOperations;
 }
 
 void BankService::createRandomMultithreadedOperations(int numberOfThreads) {
+    /**
+    threads.emplace_back([this]() {
+        while (true) {
+            int lagSize = 1000;
+            if (this->repository->getNumberOfRecentlyExecutedOperations() > lagSize) {
+                assert(this->checkTransferLogsValidity(lagSize));
+                this->repository->setNumberOfRecentlyExecutedOperations(0);
+            }
+        }
+    });
+     **/
+
     for (int thread_index = 0; thread_index < numberOfThreads; thread_index++)
         threads.emplace_back([this]() {
             this->generateRandomOperations();
@@ -97,6 +118,41 @@ BankAccount* BankService::pickRandomAccount() {
     int randomIndex = this->randomEngine() % accounts.size();
 
     return accounts[randomIndex];
+}
+
+bool BankService::checkTransferLogsValidity(int lagSize) {
+    /**
+     * lagSize: the last lagSize records are checked to see if each record is saved in the logs of both the bank
+     *          accounts which participated in the transfer.
+     * **/
+
+    //this->operationValidityMutex.lock();
+    std::vector<BankAccount*> accounts = this->repository->getContainer();
+    std::map<std::string, BankAccount*> account_owners;
+    for (BankAccount* account: accounts)
+        account_owners[account->getOwner()] = account;
+
+    std::vector<Operation*> operationsVector = this->repository->getGlobalOperationLog()->getOperations();
+    auto vector_iterator = operationsVector.rbegin();
+
+    for (; vector_iterator != operationsVector.rbegin() + lagSize; vector_iterator++) {
+        Operation* operation = *vector_iterator;
+        std::vector<Operation*> transferrerOperationLog = account_owners[operation->getTransferer()]->getOperationLog()->getOperations();
+        std::vector<Operation*> transferreeOperationLog = account_owners[operation->getTransferee()]->getOperationLog()->getOperations();
+        bool operationNotFoundInFirstLog = std::find(transferrerOperationLog.begin(), transferrerOperationLog.end(), operation) == transferrerOperationLog.end();
+        bool operationNotFoundInSecondLog = std::find(transferreeOperationLog.begin(), transferreeOperationLog.end(), operation) == transferreeOperationLog.end();
+        if (operationNotFoundInFirstLog || operationNotFoundInSecondLog)
+            return false;
+        std::cout << *vector_iterator << "\n";
+    }
+
+    //this->operationValidityMutex.unlock();
+
+    return true;
+}
+
+bool BankService::checkBalanceValidityAfterTransfers() {
+    return false;
 }
 
 BankService::~BankService() {

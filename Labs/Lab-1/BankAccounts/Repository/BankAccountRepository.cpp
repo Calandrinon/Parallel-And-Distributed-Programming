@@ -7,10 +7,17 @@
 
 BankAccountRepository::BankAccountRepository() {
     this->bankDetailsState = new BankDetailsState();
+    this->globalOperationLog = new OperationLog();
+    this->numberOfRecentlyExecutedOperations = 0;
 }
 
 void BankAccountRepository::save(BankAccount *account) {
     this->container.push_back(account);
+}
+
+void BankAccountRepository::addGlobalOperationRecord(Operation* operation) {
+    std::lock_guard<std::mutex> lock(this->globalRecordsMutex);
+    this->globalOperationLog->addOperation(operation);
 }
 
 BankDetailsState *BankAccountRepository::getBankDetailsState() const {
@@ -19,6 +26,20 @@ BankDetailsState *BankAccountRepository::getBankDetailsState() const {
 
 void BankAccountRepository::setBankDetailsState(BankDetailsState* bankDetailsState) {
     this->bankDetailsState = bankDetailsState;
+}
+
+OperationLog *BankAccountRepository::getGlobalOperationLog() {
+    return this->globalOperationLog;
+}
+
+void BankAccountRepository::setNumberOfRecentlyExecutedOperations(int numberOfRecentlyExecutedOperations) {
+    this->numberOfOperationsMutex.lock();
+    this->numberOfRecentlyExecutedOperations = numberOfRecentlyExecutedOperations;
+    this->numberOfOperationsMutex.unlock();
+}
+
+int BankAccountRepository::getNumberOfRecentlyExecutedOperations() {
+    return this->numberOfRecentlyExecutedOperations;
 }
 
 std::vector<BankAccount*> BankAccountRepository::getContainer() const {

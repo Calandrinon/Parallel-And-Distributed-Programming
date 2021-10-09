@@ -11,6 +11,11 @@ BankAccount::BankAccount(std::string owner) {
     this->creationDate = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 }
 
+BankAccount::BankAccount(std::string owner, double balance): BankAccount(owner) {
+    this->balance = balance;
+    this->initialBalance = balance;
+}
+
 BankAccount::~BankAccount() {
 
 }
@@ -23,7 +28,7 @@ void BankAccount::setBalance(double balance) {
     this->balance = balance;
 }
 
-OperationLog *BankAccount::getOperationLog() const {
+OperationLog *BankAccount::getOperationLog() {
     return operationLog;
 }
 

@@ -81,6 +81,15 @@ void BankUI::runValidThreadConfigurationWithLocks() {
 }
 
 void BankUI::run() {
+    /**
+     * Validity checks:
+     *      - the total sum of the balances of each account before the transfers should be equal to the sum after the
+     *        transfers
+     *      - periodic check of the transfer log once in 100 transfers (to see if the transfers are saved in the logs of
+     *        both the bank accounts)
+     *      - periodic check of the transfer log once in 100 transfers (to see if the balances of the accounts are
+     *        consistent according to the logs)
+     * **/
     std::cout << "Starting the transactions...\n";
     std::vector<std::thread> threads;
     int numberOfThreads = 8;
@@ -99,9 +108,9 @@ void BankUI::run() {
     std::cout << "The total balance after the operations: " << totalBalanceAfterOperations << "\n";
 
     if (totalBalanceBeforeOperations != totalBalanceAfterOperations) {
-        std::cout << "The total balance before the operations differs from the current one!\n";
+        std::cout << "Failure: The total balance before the operations differs from the current one!\n";
     } else {
-        std::cout << "The total balance before the operations is identical to the current one.\n";
+        std::cout << "Success: The total balance before the operations is identical to the current one.\n";
     }
 }
 

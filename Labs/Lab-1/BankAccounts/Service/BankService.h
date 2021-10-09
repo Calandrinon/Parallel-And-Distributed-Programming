@@ -8,11 +8,12 @@
 #include "../Repository/BankAccountRepository.h"
 #include <thread>
 #include <random>
+#include <cassert>
 
 class BankService {
     private:
         BankAccountRepository* repository;
-        std::mutex operationMutex;
+        std::mutex operationMutex, operationValidityMutex;
         std::vector<std::thread> threads;
         std::default_random_engine randomEngine;
 
@@ -26,7 +27,9 @@ public:
         BankAccount* pickRandomAccount();
         double getTotalAccountsBalance();
         std::string generateRandomString(int length);
-        void generateRandomOperations();
+        int generateRandomOperations();
+        bool checkTransferLogsValidity(int lagSize);
+        bool checkBalanceValidityAfterTransfers();
         ~BankService();
 };
 

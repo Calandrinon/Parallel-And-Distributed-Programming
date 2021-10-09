@@ -11,14 +11,21 @@
 class BankAccountRepository {
     private:
         std::vector<BankAccount*> container;
+        OperationLog* globalOperationLog;
         BankDetailsState* bankDetailsState;
+        int numberOfRecentlyExecutedOperations;
+        std::mutex numberOfOperationsMutex, globalRecordsMutex;
 
     public:
         BankAccountRepository();
         void save(BankAccount* account);
         BankDetailsState *getBankDetailsState() const;
         void setBankDetailsState(BankDetailsState *bankDetailsState);
+        void addGlobalOperationRecord(Operation* operation);
+        OperationLog* getGlobalOperationLog();
         std::vector<BankAccount*> getContainer() const;
+        void setNumberOfRecentlyExecutedOperations(int numberOfRecentlyExecutedOperations);
+        int getNumberOfRecentlyExecutedOperations();
 };
 
 

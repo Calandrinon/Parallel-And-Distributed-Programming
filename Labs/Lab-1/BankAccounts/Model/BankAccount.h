@@ -9,17 +9,18 @@
 class BankAccount {
     private:
         int id;
-        double balance;
+        double balance, initialBalance;
         OperationLog* operationLog;
         std::string owner;
         std::time_t creationDate;
 
     public:
         BankAccount(std::string owner);
+        BankAccount(std::string owner, double balance);
         double getBalance();
         void setBalance(double balance);
         ~BankAccount();
-        OperationLog* getOperationLog() const;
+        OperationLog* getOperationLog() ;
         void setOperationLog(OperationLog *operationLog);
         const std::string &getOwner() const;
         void setOwner(const std::string &owner);
