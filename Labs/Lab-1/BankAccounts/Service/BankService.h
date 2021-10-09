@@ -10,14 +10,22 @@
 #include <random>
 #include <cassert>
 
+const int numberOfTransferOperations = 1000;
+
+enum OperationValidity {
+    INVALID,
+    VALID
+};
+
 class BankService {
     private:
         BankAccountRepository* repository;
-        std::mutex operationMutex, operationValidityMutex;
+        std::mutex operationMutex;
         std::vector<std::thread> threads;
         std::default_random_engine randomEngine;
+        int numberOfOperations = numberOfTransferOperations;
 
-public:
+    public:
         BankService(BankAccountRepository* repository);
         BankAccount* createAccount(std::string ownerName, double balance);
         void transferMoney(BankAccount* transferer, BankAccount* transferee, double amount);
@@ -28,8 +36,9 @@ public:
         double getTotalAccountsBalance();
         std::string generateRandomString(int length);
         int generateRandomOperations();
-        bool checkTransferLogsValidity(int lagSize);
+        OperationValidity checkTransferLogsValidity(int lagSize);
         bool checkBalanceValidityAfterTransfers();
+        bool compareOperationLogs(Operation* operation, OperationLog* firstOperationLog, OperationLog* secondOperationLog, int lagSize);
         ~BankService();
 };
 

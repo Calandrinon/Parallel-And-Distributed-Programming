@@ -17,8 +17,8 @@ class BankDetailsState {
         BankDetailsState();
         ~BankDetailsState();
         int getTransactionSerialNumber() const;
+        int getAndIncrementTransactionSerialNumber();
         void setTransactionSerialNumber(int transactionSerialNumber);
-        void incrementTransactionSerialNumber();
         int getAccountSerialNumber() const;
         void setAccountSerialNumber(int accountSerialNumber);
 };

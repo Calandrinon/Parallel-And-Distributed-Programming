@@ -21,9 +21,10 @@ void BankDetailsState::setTransactionSerialNumber(int transactionSerialNumber) {
     BankDetailsState::transactionSerialNumber = transactionSerialNumber;
 }
 
-void BankDetailsState::incrementTransactionSerialNumber() {
+int BankDetailsState::getAndIncrementTransactionSerialNumber() {
     std::unique_lock serialNumberLock(this->serialNumberMutex);
     this->transactionSerialNumber++;
+    return this->transactionSerialNumber;
 }
 
 int BankDetailsState::getAccountSerialNumber() const {

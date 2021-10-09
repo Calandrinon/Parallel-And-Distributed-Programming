@@ -3,7 +3,7 @@
 //
 
 #include "Operation.h"
-
+#include <string>
 
 Operation::Operation(std::string transferer, std::string transferee, double amount) {
     this->transferer = transferer;
@@ -49,4 +49,17 @@ void Operation::setTransferee(const std::string &transferee) {
 
 void Operation::setTransactionTime(time_t transactionTime) {
     Operation::transactionTime = transactionTime;
+}
+
+std::string Operation::toString() {
+    return "Serial number: " + std::to_string(this->serialNumber) + "; Transferrer: " + this->transferer + "; Transferree: " + this->transferee + "; Amount: " + std::to_string(this->amount) + "; Transaction time: " + std::to_string(this->transactionTime);
+}
+
+bool Operation::equals(Operation *otherOperation) {
+    return
+        this->serialNumber    == otherOperation->getSerialNumber()    &&
+        this->transferer      == otherOperation->getTransferer()      &&
+        this->transferee      == otherOperation->getTransferee()      &&
+        this->transactionTime == otherOperation->getTransactionTime() &&
+        this->amount          == otherOperation->getAmount();
 }

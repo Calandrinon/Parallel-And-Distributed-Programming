@@ -7,11 +7,15 @@
 OperationLog::OperationLog() {}
 
 void OperationLog::addOperation(Operation *operation) {
+    std::unique_lock<std::mutex> lock(this->addOperationMutex);
     this->operations.push_back(operation);
 }
 
 std::vector<Operation*> OperationLog::getOperations() {
-    return this->operations;
+    this->addOperationMutex.lock();
+    std::vector<Operation*> returnedOperations = this->operations;
+    this->addOperationMutex.unlock();
+    return returnedOperations;
 }
 
 OperationLog::~OperationLog() {

@@ -30,6 +30,9 @@ void BankService::transferMoney(BankAccount *transferer, BankAccount *transferee
     OperationLog* transfererOperationLog = transferer->getOperationLog();
     OperationLog* transfereeOperationLog = transferee->getOperationLog();
     auto* transferOperation = new Operation(transferer->getOwner(), transferee->getOwner(), amount);
+    transferOperation->setSerialNumber(this->repository->getBankDetailsState()->getAndIncrementTransactionSerialNumber());
+    this->repository->addGlobalOperationRecord(transferOperation);
+    this->repository->setNumberOfRecentlyExecutedOperations(this->repository->getNumberOfRecentlyExecutedOperations()+1);
     transfererOperationLog->addOperation(transferOperation);
     transfereeOperationLog->addOperation(transferOperation);
 
@@ -73,37 +76,20 @@ double BankService::getTotalAccountsBalance() {
 }
 
 int BankService::generateRandomOperations() {
-    int numberOfOperations = 100000;
-
-    for (int operationIndex = 0; operationIndex < numberOfOperations; operationIndex++) {
+    for (int operationIndex = 0; operationIndex < this->numberOfOperations; operationIndex++) {
         BankAccount* transferrer = this->pickRandomAccount();
         BankAccount* transferree = this->pickRandomAccount();
         double sum = this->randomEngine() % 100 + 1;
         this->transferMoney(transferrer, transferree, sum);
-        this->repository->addGlobalOperationRecord(new Operation(transferrer->getOwner(), transferree->getOwner(), sum));
-        this->repository->setNumberOfRecentlyExecutedOperations(this->repository->getNumberOfRecentlyExecutedOperations()+1);
-        /**
-        if (!(operationIndex % 100))
-            this->checkTransferLogsValidity(100);
-          **/
     }
 
-    return numberOfOperations;
+    OperationValidity operationValidity = this->checkTransferLogsValidity(this->numberOfOperations);
+    assert(operationValidity == VALID);
+    std::cout << (operationValidity == VALID ? "Valid operations" : "Invalid operations") << "\n";
+    return this->numberOfOperations;
 }
 
 void BankService::createRandomMultithreadedOperations(int numberOfThreads) {
-    /**
-    threads.emplace_back([this]() {
-        while (true) {
-            int lagSize = 1000;
-            if (this->repository->getNumberOfRecentlyExecutedOperations() > lagSize) {
-                assert(this->checkTransferLogsValidity(lagSize));
-                this->repository->setNumberOfRecentlyExecutedOperations(0);
-            }
-        }
-    });
-     **/
-
     for (int thread_index = 0; thread_index < numberOfThreads; thread_index++)
         threads.emplace_back([this]() {
             this->generateRandomOperations();
@@ -120,13 +106,27 @@ BankAccount* BankService::pickRandomAccount() {
     return accounts[randomIndex];
 }
 
-bool BankService::checkTransferLogsValidity(int lagSize) {
+bool BankService::compareOperationLogs(Operation* operation, OperationLog *firstOperationLog, OperationLog *secondOperationLog, int lagSize) {
+    std::vector<Operation*> transferrerOperationLog = firstOperationLog->getOperations();
+    std::vector<Operation*> transferreeOperationLog = secondOperationLog->getOperations();
+
+    auto operationMatchLambda = [operation](Operation* currentOperation) {
+        return operation->equals(currentOperation);
+    };
+
+    std::vector<Operation*>::iterator firstValidityCheckIterator = std::find_if(transferrerOperationLog.begin(), transferrerOperationLog.end(), operationMatchLambda);
+    std::vector<Operation*>::iterator secondValidityCheckIterator = std::find_if(transferreeOperationLog.begin(), transferreeOperationLog.end(), operationMatchLambda);
+    if (firstValidityCheckIterator == transferrerOperationLog.end() || secondValidityCheckIterator == transferreeOperationLog.end())
+        return false;
+    return true;
+}
+
+OperationValidity BankService::checkTransferLogsValidity(int lagSize) {
     /**
      * lagSize: the last lagSize records are checked to see if each record is saved in the logs of both the bank
      *          accounts which participated in the transfer.
      * **/
 
-    //this->operationValidityMutex.lock();
     std::vector<BankAccount*> accounts = this->repository->getContainer();
     std::map<std::string, BankAccount*> account_owners;
     for (BankAccount* account: accounts)
@@ -137,18 +137,13 @@ bool BankService::checkTransferLogsValidity(int lagSize) {
 
     for (; vector_iterator != operationsVector.rbegin() + lagSize; vector_iterator++) {
         Operation* operation = *vector_iterator;
-        std::vector<Operation*> transferrerOperationLog = account_owners[operation->getTransferer()]->getOperationLog()->getOperations();
-        std::vector<Operation*> transferreeOperationLog = account_owners[operation->getTransferee()]->getOperationLog()->getOperations();
-        bool operationNotFoundInFirstLog = std::find(transferrerOperationLog.begin(), transferrerOperationLog.end(), operation) == transferrerOperationLog.end();
-        bool operationNotFoundInSecondLog = std::find(transferreeOperationLog.begin(), transferreeOperationLog.end(), operation) == transferreeOperationLog.end();
-        if (operationNotFoundInFirstLog || operationNotFoundInSecondLog)
-            return false;
-        std::cout << *vector_iterator << "\n";
+        std::string transferrerName = operation->getTransferer();
+        std::string transferreeName = operation->getTransferee();
+        if (!this->compareOperationLogs(operation, account_owners[transferrerName]->getOperationLog(), account_owners[transferreeName]->getOperationLog(), lagSize))
+            return INVALID;
     }
 
-    //this->operationValidityMutex.unlock();
-
-    return true;
+    return VALID;
 }
 
 bool BankService::checkBalanceValidityAfterTransfers() {

@@ -12,6 +12,7 @@
 class OperationLog {
     private:
         std::vector<Operation*> operations;
+        std::mutex addOperationMutex;
 
     public:
         OperationLog();

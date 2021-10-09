@@ -92,7 +92,7 @@ void BankUI::run() {
      * **/
     std::cout << "Starting the transactions...\n";
     std::vector<std::thread> threads;
-    int numberOfThreads = 8;
+    int numberOfThreads = 100;
 
     this->service->createRandomAccounts(100);
     double totalBalanceBeforeOperations = this->service->getTotalAccountsBalance();

@@ -16,8 +16,9 @@ void BankAccountRepository::save(BankAccount *account) {
 }
 
 void BankAccountRepository::addGlobalOperationRecord(Operation* operation) {
-    std::lock_guard<std::mutex> lock(this->globalRecordsMutex);
+    this->globalRecordsMutex.lock();
     this->globalOperationLog->addOperation(operation);
+    this->globalRecordsMutex.unlock();
 }
 
 BankDetailsState *BankAccountRepository::getBankDetailsState() const {

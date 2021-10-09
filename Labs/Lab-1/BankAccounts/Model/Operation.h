@@ -23,7 +23,7 @@ class Operation {
         time_t getTransactionTime() const;
         double getAmount();
         void setAmount(double amount);
-
+        std::string toString();
         ~Operation() = default;
 
     const std::string &getTransferer() const;
@@ -35,6 +35,8 @@ class Operation {
     void setTransferee(const std::string &transferee);
 
     void setTransactionTime(time_t transactionTime);
+
+    bool equals(Operation* otherOperation);
 };
 
 
