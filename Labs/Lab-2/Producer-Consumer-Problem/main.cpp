@@ -48,11 +48,19 @@ void sumConsumer() {
 int main() {
     int numberOfElements;
     in >> numberOfElements;
+
+    auto start = std::chrono::steady_clock::now();
+
     std::thread producerThread(productsProducer, &numberOfElements);
     std::thread consumerThread(sumConsumer);
     producerThread.join();
     consumerThread.join();
 
+    auto end = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << sum << "\n";
+
+    std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
+
     return 0;
 }
