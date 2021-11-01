@@ -4,4 +4,4 @@ project(MultithreadedMatrixMultiplication)
 set(CMAKE_CXX_STANDARD 23)
 SET(CMAKE_CXX_FLAGS -pthread)
 
-add_executable(MultithreadedMatrixMultiplication main.cpp)
+add_executable(MultithreadedMatrixMultiplication main.cpp thread_pool.h)
