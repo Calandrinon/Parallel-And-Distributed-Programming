@@ -123,7 +123,7 @@ void computeMultiplicationWithThreadPool(Matrix* firstMatrix, Matrix* secondMatr
 }
 
 int main() {
-    int n=1000, m=1000, p=1000;
+    int n=2000, m=2000, p=2000;
     Matrix firstMatrix = generateMatrix(n, m);
     Matrix secondMatrix = generateMatrix(m, p);
     computeMultiplicationWithThreads(&firstMatrix, &secondMatrix);
