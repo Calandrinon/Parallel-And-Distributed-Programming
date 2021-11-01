@@ -12,8 +12,7 @@ BankService::BankService(BankAccountRepository *repository) {
 }
 
 BankAccount* BankService::createAccount(std::string ownerName, double balance) {
-    BankAccount* newAccount = new BankAccount(ownerName);
-    newAccount->setBalance(balance);
+    BankAccount* newAccount = new BankAccount(ownerName, balance);
     int accountSerialNumber = this->repository->getBankDetailsState()->getAccountSerialNumber() + 1;
     this->repository->getBankDetailsState()->setAccountSerialNumber(accountSerialNumber);
     newAccount->setId(accountSerialNumber);
@@ -83,9 +82,10 @@ int BankService::generateRandomOperations() {
         this->transferMoney(transferrer, transferree, sum);
     }
 
-    OperationValidity operationValidity = this->checkTransferLogsValidity(this->numberOfOperations);
-    assert(operationValidity == VALID);
-    std::cout << (operationValidity == VALID ? "Valid operations" : "Invalid operations") << "\n";
+    OperationValidity transferLogsValidity = this->checkTransferLogsValidity(this->numberOfOperations);
+    assert(transferLogsValidity == VALID);
+    std::cout << (transferLogsValidity == VALID ? "Valid transfer logs" : "Invalid transfer logs") << "\n";
+
     return this->numberOfOperations;
 }
 
@@ -146,8 +146,25 @@ OperationValidity BankService::checkTransferLogsValidity(int lagSize) {
     return VALID;
 }
 
-bool BankService::checkBalanceValidityAfterTransfers() {
-    return false;
+OperationValidity BankService::checkBalanceValidityAfterTransfers(BankAccount* account) {
+    std::vector<Operation*> operations = account->getOperationLog()->getOperations();
+    double balanceBeforeOperations = account->getInitialBalance();
+    double balanceAfterOperations = account->getBalance();
+    std::cout << "Balance before operations: " << balanceBeforeOperations << "\n";
+    auto operationsIterator = operations.begin();
+
+    for (; operationsIterator < operations.end(); operationsIterator++) {
+        if ((*operationsIterator)->getTransferer() == account->getOwner()) {
+            balanceBeforeOperations -= (*operationsIterator)->getAmount();
+            std::cout << "Balance decreased with " << (*operationsIterator)->getAmount() << " to " << balanceBeforeOperations << "\n";
+        } else {
+            balanceBeforeOperations += (*operationsIterator)->getAmount();
+            std::cout << "Balance increased with " << (*operationsIterator)->getAmount() << " to " << balanceBeforeOperations << "\n";
+        }
+    }
+
+    std::cout << "Balance before ops: " << balanceBeforeOperations << "; Account balance: " << balanceAfterOperations << "\n";
+    return (balanceBeforeOperations == account->getBalance() ? VALID : INVALID);
 }
 
 BankService::~BankService() {

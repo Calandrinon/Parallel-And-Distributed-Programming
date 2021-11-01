@@ -14,6 +14,7 @@ BankAccount::BankAccount(std::string owner) {
 BankAccount::BankAccount(std::string owner, double balance): BankAccount(owner) {
     this->balance = balance;
     this->initialBalance = balance;
+    std::cout << "Balance is: " << this->balance << "; Initial balance: " << this->initialBalance << "\n";
 }
 
 BankAccount::~BankAccount() {
@@ -54,6 +55,10 @@ void BankAccount::setCreationDate(time_t creationDate) {
 
 int BankAccount::getId() {
     return this->id;
+}
+
+double BankAccount::getInitialBalance() const {
+    return initialBalance;
 }
 
 void BankAccount::setId(int id) {

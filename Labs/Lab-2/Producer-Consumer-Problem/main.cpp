@@ -15,16 +15,15 @@ int sum = 0;
 std::mutex mutex;
 std::condition_variable conditionVariable;
 
-void productsProducer(int* numberOfElements) {
-    while (*numberOfElements > 0) {
+void productsProducer(int numberOfElements) {
+    while (numberOfElements > 0) {
         std::unique_lock uniqueLock(mutex);
         conditionVariable.wait(uniqueLock, []() { return productsBuffer.size() < maximumBufferSize; });
         std::cout << "Producer's turn...\n";
-        int firstValue, secondValue, currentNumberOfElements;
+        int firstValue, secondValue;
         in >> firstValue >> secondValue;
         productsBuffer.push_back(firstValue*secondValue);
-        currentNumberOfElements = *numberOfElements;
-        *numberOfElements = currentNumberOfElements - 1;
+        numberOfElements--;
         uniqueLock.unlock();
         conditionVariable.notify_one();
     }
@@ -51,7 +50,7 @@ int main() {
 
     auto start = std::chrono::steady_clock::now();
 
-    std::thread producerThread(productsProducer, &numberOfElements);
+    std::thread producerThread(productsProducer, numberOfElements);
     std::thread consumerThread(sumConsumer);
     producerThread.join();
     consumerThread.join();

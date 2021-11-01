@@ -10,7 +10,7 @@
 #include <random>
 #include <cassert>
 
-const int numberOfTransferOperations = 1000;
+const int numberOfTransferOperations = 100;
 
 enum OperationValidity {
     INVALID,
@@ -20,7 +20,7 @@ enum OperationValidity {
 class BankService {
     private:
         BankAccountRepository* repository;
-        std::mutex operationMutex;
+        std::mutex operationMutex, balanceCheckMutex;
         std::vector<std::thread> threads;
         std::default_random_engine randomEngine;
         int numberOfOperations = numberOfTransferOperations;
@@ -37,7 +37,7 @@ class BankService {
         std::string generateRandomString(int length);
         int generateRandomOperations();
         OperationValidity checkTransferLogsValidity(int lagSize);
-        bool checkBalanceValidityAfterTransfers();
+        OperationValidity checkBalanceValidityAfterTransfers(BankAccount* account);
         bool compareOperationLogs(Operation* operation, OperationLog* firstOperationLog, OperationLog* secondOperationLog, int lagSize);
         ~BankService();
 };

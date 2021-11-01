@@ -20,7 +20,7 @@ class BankAccount {
         double getBalance();
         void setBalance(double balance);
         ~BankAccount();
-        OperationLog* getOperationLog() ;
+        OperationLog* getOperationLog();
         void setOperationLog(OperationLog *operationLog);
         const std::string &getOwner() const;
         void setOwner(const std::string &owner);
@@ -28,6 +28,7 @@ class BankAccount {
         void setCreationDate(time_t creationDate);
         int getId();
         void setId(int id);
+        double getInitialBalance() const;
 };
 
 
