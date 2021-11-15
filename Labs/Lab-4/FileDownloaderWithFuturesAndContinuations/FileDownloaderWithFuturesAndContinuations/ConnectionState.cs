@@ -1,0 +1,57 @@
+using System;
+using System.Net;
+using System.Net.Sockets;
+
+namespace FileDownloaderWithFuturesAndContinuations
+{
+    public class ConnectionState
+    {
+        public int BytesRemaining
+        {
+            get => bytesRemaining;
+            set => bytesRemaining = value;
+        }
+
+        public IPAddress Address
+        {
+            get => address;
+            set => address = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public byte[] Buffer
+        {
+            get => buffer;
+            set => buffer = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public Socket Socket
+        {
+            get => socket;
+            set => socket = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public string Host
+        {
+            get => host;
+            set => host = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public string Resource
+        {
+            get => resource;
+            set => resource = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        public string Response
+        {
+            get => response;
+            set => response = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        IPAddress address;
+        byte[] buffer;
+        Socket socket;
+        String host, resource, response;
+        int bytesRemaining;
+    }
+}

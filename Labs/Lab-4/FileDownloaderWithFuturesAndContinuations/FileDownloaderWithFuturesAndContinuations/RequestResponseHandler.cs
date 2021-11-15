@@ -30,42 +30,50 @@ namespace FileDownloaderWithFuturesAndContinuations
 
         private void RequestSendingCallback(IAsyncResult asyncResult)
         {
-            Socket socket = (Socket)asyncResult.AsyncState;
-            socket.EndSend(asyncResult);
+            ConnectionState connectionState = (ConnectionState) asyncResult.AsyncState;
+            connectionState.Socket.EndSend(asyncResult);
             Console.WriteLine("Sent the message.");
 
-            byte[] responseBuffer = new byte[50000];
-            socket.BeginReceive(responseBuffer, 0, responseBuffer.Length,
-                0, ResponseCallback, new Tuple<Socket, byte[]>(socket, responseBuffer));
+            connectionState.Socket.BeginReceive(connectionState.Buffer, 0, connectionState.Buffer.Length,
+                0, ResponseCallback, connectionState);
         }
         
         private void ResponseCallback(IAsyncResult asyncResult)
         {
             Console.WriteLine("In the ResponseCallback...");
-            (Socket socket, byte[] responseBuffer) = (Tuple<Socket, byte[]>) asyncResult.AsyncState;
-            
+            ConnectionState connectionState = (ConnectionState) asyncResult.AsyncState;
+
             try
             {
-                int numberOfBytesReceived = socket.EndReceive(asyncResult);
-                String response = Encoding.ASCII.GetString(responseBuffer, 0, numberOfBytesReceived);
-                (String responseHeader, int contentLength) = parseResponse(response);
+                int numberOfBytesReceived = connectionState.Socket.EndReceive(asyncResult);
+                String response = Encoding.ASCII.GetString(connectionState.Buffer, 0, numberOfBytesReceived);
+                connectionState.Response += response;
                 
-                Console.WriteLine("===================================================");
-                Console.WriteLine("Response header:");
-                Console.WriteLine(responseHeader);
-                Console.WriteLine("Obtained content length: {0}", contentLength);
-                Console.WriteLine("===================================================");
-                
-                if (numberOfBytesReceived == 0)
+                Console.WriteLine("Accumulated response:");
+                Console.WriteLine(connectionState.Response);
+
+                if (connectionState.Response.Contains("\r\n\r\n"))
                 {
-                    socket.BeginReceive(responseBuffer, 0, responseBuffer.Length,
-                        0, ResponseCallback, new Tuple<Socket, byte[]>(socket, responseBuffer));
-                }
-                else
-                {
+                    Console.WriteLine("========= The response contains rnrn pattern =========");
+                    (String responseHeader, int contentLength) = parseResponse(connectionState.Response);
+
+                    int patternIndex = connectionState.Response.IndexOf("\r\n\r\n");
+                    Console.WriteLine("RNRN pattern index:");
+                    Console.WriteLine(patternIndex);
+                    Console.WriteLine("===================================================");
+                    Console.WriteLine("Response header:");
+                    Console.WriteLine(responseHeader);
+                    Console.WriteLine("Obtained content length: {0}", contentLength);
+                    Console.WriteLine("===================================================");
                     Console.WriteLine("Currently receiving the response...");
                     Console.WriteLine("This is the received message: {0}", response);
                     Console.WriteLine("Received the response: {0} bytes", numberOfBytesReceived);
+                }
+                else
+                {
+                    Console.WriteLine("========= The response doesn't contain rnrn pattern yet =========");
+                    connectionState.Socket.BeginReceive(connectionState.Buffer, 0, connectionState.Buffer.Length,
+                0, ResponseCallback, connectionState);
                 }
             }
             catch (Exception exception)
@@ -76,30 +84,34 @@ namespace FileDownloaderWithFuturesAndContinuations
 
         private void HandleConnection(IAsyncResult asyncResult)
         {
-            Console.WriteLine("From handleResponse()");
-            (Socket socket, IPAddress ipAddress, String hostName, String fileName) 
-                = (Tuple<Socket, IPAddress, String, String>)asyncResult.AsyncState;
-            socket.EndConnect(asyncResult);
+            
+            ConnectionState connectionState = (ConnectionState)asyncResult.AsyncState;
+            connectionState.Socket.EndConnect(asyncResult);
 
-            String httpHeader = String.Format("GET {0}/ HTTP/1.1\r\nHost: {1}\r\nContent-Length: 0\r\n\r\n", fileName, hostName);
+            String httpHeader = String.Format("GET {0}/ HTTP/1.1\r\nHost: {1}\r\nContent-Length: 0\r\n\r\n", connectionState.Resource, connectionState.Host);
             Console.WriteLine(httpHeader);
 
             byte[] httpHeaderBuffer = Encoding.ASCII.GetBytes(httpHeader);
-            socket.BeginSend(httpHeaderBuffer, 0, httpHeaderBuffer.Length,
-                0, RequestSendingCallback, socket);
+            connectionState.Socket.BeginSend(httpHeaderBuffer, 0, httpHeaderBuffer.Length,
+                0, RequestSendingCallback, connectionState);
         }
 
         public void MakeRequest(String url)
         {
             List<String> urlTokens = url.Split('/').ToList().Where(x => !String.IsNullOrEmpty(x)).ToList();
-            String hostName = urlTokens[0], fileName = url.Substring(url.IndexOf("/"));
-            
-            IPHostEntry dnsResolvedAddress = Dns.GetHostEntry(hostName);
+            ConnectionState connectionState = new ConnectionState();
+
+            connectionState.Host = urlTokens[0];
+            IPHostEntry dnsResolvedAddress = Dns.GetHostEntry(connectionState.Host);
             List<IPAddress> addresses = dnsResolvedAddress.AddressList.ToList();
             IPEndPoint endpoint = new IPEndPoint(dnsResolvedAddress.AddressList[0], 80);
-            Socket socket = new Socket(endpoint.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            connectionState.Buffer = new byte[128];
+            connectionState.Socket = new Socket(endpoint.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            connectionState.Host = urlTokens[0];
+            connectionState.Resource = url.Substring(url.IndexOf("/"));
+            connectionState.Address = addresses[0];
             
-            IAsyncResult asyncResult = socket.BeginConnect(endpoint, HandleConnection, new Tuple<Socket, IPAddress, String, String>(socket, addresses[0], hostName, fileName));
+            IAsyncResult asyncResult = connectionState.Socket.BeginConnect(endpoint, HandleConnection, connectionState);
             while (!asyncResult.IsCompleted) { }
             Console.WriteLine("Connection has been established.");
         }
