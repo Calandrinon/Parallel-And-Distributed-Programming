@@ -24,13 +24,10 @@ namespace FileDownloaderWithFuturesAndContinuations
         public static void Main(String[] args)
         {
             // The filepath contains the .. pattern for backwards directory navigation, because Jetbrains Rider 
-            // apparently reads files from the bin/ directory where the compiled executables are saved.
+            // apparently reads files from the bin/ directory where the compiled executables are saved and placing the
+            // URL file there doesn't make much sense
             List<String> urls = ReadUrlList("../../../URLs.txt");
-
-            foreach (var url in urls)
-            {
-                Console.WriteLine(url); 
-            }
+            RequestResponseHandler requestResponseHandler = new RequestResponseHandler(urls);
         }
     }
 }
