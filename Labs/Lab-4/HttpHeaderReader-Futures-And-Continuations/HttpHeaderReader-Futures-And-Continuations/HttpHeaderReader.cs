@@ -30,9 +30,9 @@ namespace HttpHeaderReaderWithFuturesAndContinuations
             // apparently reads files from the bin/ directory where the compiled executables are saved and placing the
             // URL file there doesn't make much sense
             List<String> urls = ReadUrlList("../../../URLs.txt");
-            RequestResponseHandlerWithCallbacks requestResponseHandlerWithCallbacks = new RequestResponseHandlerWithCallbacks(urls);
+            // RequestResponseHandlerWithCallbacks requestResponseHandlerWithCallbacks = new RequestResponseHandlerWithCallbacks(urls);
             // RequestResponseHandlerWithTasks requestResponseHandlerWithTasks = new RequestResponseHandlerWithTasks(urls);
-            // AsynchronousRequestResponseHandler asynchronousRequestResponseHandler = new AsynchronousRequestResponseHandler(urls);
+            AsynchronousRequestResponseHandler asynchronousRequestResponseHandler = new AsynchronousRequestResponseHandler(urls);
             stopwatch.Stop();            
             
             System.Threading.Thread.Sleep(100);

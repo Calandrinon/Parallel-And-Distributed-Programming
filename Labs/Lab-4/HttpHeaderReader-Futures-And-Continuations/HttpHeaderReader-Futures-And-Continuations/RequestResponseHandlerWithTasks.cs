@@ -31,8 +31,7 @@ namespace HttpHeaderReaderWithFuturesAndContinuations
             int contentLengthStartIndex = header.IndexOf("Content-Length:") + "Content-Length:".Length;
             int contentLengthEndIndex = header.IndexOf("\n");
             String contentLengthSubstring = response.Substring(contentLengthStartIndex, contentLengthEndIndex);
-            Regex regexPattern = new Regex(@"[0-9]+");
-            String contentLengthValue = Regex.Match(contentLengthSubstring, @"\d+").Value;
+            String contentLengthValue = Regex.Match(contentLengthSubstring, @"[0-9]+").Value;
             return new Tuple<String, int>(header, int.Parse(contentLengthValue));
         }
 
