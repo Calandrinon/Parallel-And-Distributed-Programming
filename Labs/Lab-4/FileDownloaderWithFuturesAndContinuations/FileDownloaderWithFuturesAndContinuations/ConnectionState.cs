@@ -15,11 +15,13 @@ namespace FileDownloaderWithFuturesAndContinuations
         public string Response {get => response; set => response = value ?? throw new ArgumentNullException(nameof(value)); }
         public int ContentLength { get => contentLength; set => contentLength = value; }
         public string OriginalUrl { get => originalUrl; set => originalUrl = value; }
+        public IPEndPoint Endpoint { get => endpoint; set => endpoint = value ?? throw new ArgumentNullException(nameof(value)); }
         
         IPAddress address;
         byte[] buffer;
         Socket socket;
         String host, resource, response, originalUrl;
         int bytesRemaining, contentLength;
+        IPEndPoint endpoint;
     }
 }

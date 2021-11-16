@@ -9,10 +9,10 @@ using System.Threading;
 
 namespace FileDownloaderWithFuturesAndContinuations
 {
-    public class RequestResponseHandler
+    public class RequestResponseHandlerWithCallbacks
     {
         private List<String> listOfUrls; 
-        public RequestResponseHandler(List<String> listOfUrls)
+        public RequestResponseHandlerWithCallbacks(List<String> listOfUrls)
         {
             this.listOfUrls = listOfUrls;
             foreach (String url in listOfUrls)
