@@ -28,7 +28,8 @@ namespace FileDownloaderWithFuturesAndContinuations
             // URL file there doesn't make much sense
             List<String> urls = ReadUrlList("../../../URLs.txt");
             //RequestResponseHandlerWithCallbacks requestResponseHandlerWithCallbacks = new RequestResponseHandlerWithCallbacks(urls);
-            RequestResponseHandlerWithTasks requestResponseHandlerWithTasks = new RequestResponseHandlerWithTasks(urls);
+            //RequestResponseHandlerWithTasks requestResponseHandlerWithTasks = new RequestResponseHandlerWithTasks(urls);
+            AsynchronousRequestResponseHandler asynchronousRequestResponseHandler = new AsynchronousRequestResponseHandler(urls);
         }
     }
 }
