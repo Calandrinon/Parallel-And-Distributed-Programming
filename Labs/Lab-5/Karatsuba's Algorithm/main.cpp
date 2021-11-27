@@ -1,15 +1,16 @@
 #include <iostream>
-#include <deque>
+#include "Polynomial.h"
+#include "PolynomialArithmetic.h"
 #include <fstream>
 #include <tuple>
 
 #define MAX_POLYNOMIAL_DEGREE 100
 
-std::tuple<std::deque<int>, std::deque<int>> readPolynomials(std::string filename) {
-    std::deque<int> coefficientsOfTheFirstPolynomial, coefficientsOfTheSecondPolynomial;
+std::tuple<Polynomial, Polynomial> readPolynomials(std::string filename) {
     std::ifstream in(filename);
-
+    std::deque<int> coefficientsOfTheFirstPolynomial, coefficientsOfTheSecondPolynomial;
     int polynomialSize, currentNumber;
+
     in >> polynomialSize;
     for (int i = 0; i < polynomialSize; i++) {
         in >> currentNumber;
@@ -22,36 +23,29 @@ std::tuple<std::deque<int>, std::deque<int>> readPolynomials(std::string filenam
         coefficientsOfTheSecondPolynomial.push_back(currentNumber);
     }
 
-    return std::make_tuple(coefficientsOfTheFirstPolynomial, coefficientsOfTheSecondPolynomial);
+    Polynomial firstPolynomial(coefficientsOfTheFirstPolynomial, polynomialSize - 1);
+    Polynomial secondPolynomial(coefficientsOfTheSecondPolynomial, polynomialSize - 1);
+
+    return std::make_tuple(firstPolynomial, secondPolynomial);
 }
 
-std::deque<int> computeRegularPolynomialMultiplication(std::deque<int>& coefficientsOfTheFirstPolynomial,
-                                                       std::deque<int>& coefficientsOfTheSecondPolynomial) {
-    std::deque<int> result(MAX_POLYNOMIAL_DEGREE, 0);
-
-    for (int firstIndex = 0; firstIndex < coefficientsOfTheFirstPolynomial.size(); firstIndex++) {
-        for (int secondIndex = 0; secondIndex < coefficientsOfTheSecondPolynomial.size(); secondIndex++)
-            result[firstIndex + secondIndex] += coefficientsOfTheFirstPolynomial[firstIndex] * coefficientsOfTheSecondPolynomial[secondIndex];
-    }
-
-    return result;
-}
-
-void printResultOfThePolynomialMultiplication(std::deque<int>& firstPolynomial, std::deque<int>& secondPolynomial) {
-    int resultSize = firstPolynomial.size() * secondPolynomial.size();
-    std::deque<int> result = computeRegularPolynomialMultiplication(firstPolynomial, secondPolynomial);
-
-    for (int index = 0; index < resultSize; index++) {
-        if (result[index]) {
-            if (index)
-                std::cout << " + ";
-            std::cout << result[index] << "X^" << index;
-        }
-    }
-}
 
 int main() {
-    auto [coefficientsOfTheFirstPolynomial, coefficientsOfTheSecondPolynomial] = readPolynomials("polynomials.txt");
-    printResultOfThePolynomialMultiplication(coefficientsOfTheFirstPolynomial, coefficientsOfTheSecondPolynomial);
+    // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
+    auto [firstPolynomial, secondPolynomial] = readPolynomials("../polynomials.txt");
+
+    firstPolynomial.print();
+    secondPolynomial.print();
+
+    Polynomial regularPolynomialMultiplicationResult = PolynomialArithmetic::computeRegularPolynomialMultiplication(
+            firstPolynomial, secondPolynomial);
+    Polynomial karatsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(
+            firstPolynomial, secondPolynomial);
+
+    std::cout << "Regular multiplication result:\n";
+    regularPolynomialMultiplicationResult.print();
+    std::cout << "Karatsuba multiplication result:\n";
+    karatsubaPolynomialMultiplicationResult.print();
+
     return 0;
 }

@@ -3,4 +3,4 @@ project(Karatsuba_s_Algorithm)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Karatsuba_s_Algorithm main.cpp)
+add_executable(Karatsuba_s_Algorithm main.cpp Polynomial.cpp Polynomial.h PolynomialArithmetic.cpp PolynomialArithmetic.h)
