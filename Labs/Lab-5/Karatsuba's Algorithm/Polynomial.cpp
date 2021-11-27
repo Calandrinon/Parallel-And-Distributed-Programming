@@ -45,10 +45,23 @@ int Polynomial::getNumberOfCoefficients() {
 }
 
 void Polynomial::print() {
-    for (int index = 0; index < this->degree + 1; index++) {
-        if (index > 0)
+    if (this->degree <= 8) {
+        for (int index = 0; index < this->degree + 1; index++) {
+            if (index > 0)
+                std::cout << "+ ";
+            std::cout << this->coefficients[index] << "X^" << index << " ";
+        }
+    } else {
+        for (int index = 0; index < 4; index++) {
+            std::cout << this->coefficients[index] << "X^" << index << " ";
             std::cout << "+ ";
-        std::cout << this->coefficients[index] << "X^" << index << " ";
+        }
+        std::cout << "... ";
+        for (int index = this->degree - 3; index < this->degree + 1; index++) {
+            if (index > 0)
+                std::cout << "+ ";
+            std::cout << this->coefficients[index] << "X^" << index << " ";
+        }
     }
 
     std::cout << "\n";
