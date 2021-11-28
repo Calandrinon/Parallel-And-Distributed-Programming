@@ -4,8 +4,6 @@
 #include <fstream>
 #include <tuple>
 
-#define MAX_POLYNOMIAL_DEGREE 100
-
 std::tuple<Polynomial, Polynomial> readPolynomials(std::string filename) {
     std::ifstream in(filename);
     std::deque<int> coefficientsOfTheFirstPolynomial, coefficientsOfTheSecondPolynomial;
@@ -34,18 +32,21 @@ int main() {
     // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
     auto [firstPolynomial, secondPolynomial] = readPolynomials("../polynomials.txt");
 
-    firstPolynomial.print();
-    secondPolynomial.print();
+    firstPolynomial.print(true);
+    secondPolynomial.print(true);
 
     Polynomial regularPolynomialMultiplicationResult = PolynomialArithmetic::computeRegularPolynomialMultiplication(
             firstPolynomial, secondPolynomial);
     Polynomial karatsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(
             firstPolynomial, secondPolynomial);
 
-    std::cout << "Regular multiplication result:\n";
-    regularPolynomialMultiplicationResult.print();
-    std::cout << "Karatsuba multiplication result:\n";
-    karatsubaPolynomialMultiplicationResult.print();
-
+    std::cout << "Sequential regular multiplication result:\n";
+    regularPolynomialMultiplicationResult.print(true);
+    std::cout << "Sequential Karatsuba multiplication result:\n";
+    karatsubaPolynomialMultiplicationResult.print(true);
+    std::cout << "Parallel regular multiplication result:\n";
+    Polynomial parallelRegularPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplication(
+            firstPolynomial, secondPolynomial);
+    parallelRegularPolynomialMultiplicationResult.print(true);
     return 0;
 }

@@ -2,8 +2,13 @@
 // Created by calandrinon on 11/27/21.
 //
 
+#include <mutex>
+#include <vector>
+#include <thread>
+#include <chrono>
 #include "PolynomialArithmetic.h"
 #include "Polynomial.h"
+#include "ThreadPool.h"
 
 
 Polynomial PolynomialArithmetic::computeRegularPolynomialMultiplication(Polynomial firstPolynomial,
@@ -84,4 +89,36 @@ Polynomial PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(Polyno
     partialResult.padWithZeroes(halfSize);
 
     return computeSimplePolynomialOperation(computeSimplePolynomialOperation(paddedBc, partialResult, '+'), ac, '+');
+}
+
+
+Polynomial PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplication(Polynomial& firstPolynomial,
+                                                                                    Polynomial& secondPolynomial) {
+    const int resultSize = firstPolynomial.getDegree() + secondPolynomial.getDegree();
+    std::shared_ptr<Polynomial> result = std::make_shared<Polynomial>(resultSize);
+    ThreadPool threadPool;
+    int taskWorkload = !(result->getNumberOfCoefficients() / threadPool.getNumberOfThreads()) ? 1 : result->getNumberOfCoefficients() / threadPool.getNumberOfThreads();
+
+
+    for (int resultIndex = 0; resultIndex < resultSize + 1; resultIndex += taskWorkload) {
+        threadPool.enqueue([=](){
+            int intervalStart = resultIndex, intervalEnd = resultIndex + taskWorkload;
+            for (int firstIndex = intervalStart; firstIndex < intervalEnd; firstIndex++) {
+                if (firstIndex > result->getNumberOfCoefficients())
+                    return;
+                for (int secondIndex = 0; secondIndex <= firstIndex; secondIndex++) {
+                    if (secondIndex < firstPolynomial.getNumberOfCoefficients() && (firstIndex - secondIndex) < secondPolynomial.getNumberOfCoefficients()) {
+                        int previousValue = result->getCoefficientOfDegree(firstIndex);
+                        result->setCoefficientOfDegree(firstIndex,previousValue +
+                        firstPolynomial.getCoefficientOfDegree(secondIndex) * secondPolynomial.getCoefficientOfDegree(firstIndex - secondIndex));
+                    }
+                }
+            }
+        });
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    threadPool.close();
+
+    return *result;
 }

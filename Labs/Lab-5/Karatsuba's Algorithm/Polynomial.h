@@ -7,6 +7,7 @@
 #include <iostream>
 #include <deque>
 #include <utility>
+#define MAX_POLYNOMIAL_DEGREE 100
 
 class Polynomial {
     private:
@@ -21,10 +22,10 @@ class Polynomial {
         void setCoefficients(const std::deque<int> &coefficients);
         int getDegree() const;
         void setDegree(int degree);
-        int getCoefficientOfDegree(int degree);
+        int getCoefficientOfDegree(int degree) const;
         void setCoefficientOfDegree(int degree, int value);
-        int getNumberOfCoefficients();
-        void print();
+        int getNumberOfCoefficients() const;
+        void print(bool completePrint);
         void padWithZeroes(int numberOfZeroes);
 };
 

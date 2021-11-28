@@ -32,7 +32,7 @@ void Polynomial::setDegree(int degree) {
     this->degree = degree;
 }
 
-int Polynomial::getCoefficientOfDegree(int degree) {
+int Polynomial::getCoefficientOfDegree(int degree) const {
     return this->coefficients[degree];
 }
 
@@ -40,12 +40,12 @@ void Polynomial::setCoefficientOfDegree(int degree, int value) {
     this->coefficients[degree] = value;
 }
 
-int Polynomial::getNumberOfCoefficients() {
+int Polynomial::getNumberOfCoefficients() const {
     return this->coefficients.size();
 }
 
-void Polynomial::print() {
-    if (this->degree <= 8) {
+void Polynomial::print(bool completePrint = false) {
+    if (this->degree <= 8 || completePrint) {
         for (int index = 0; index < this->degree + 1; index++) {
             if (index > 0)
                 std::cout << "+ ";
