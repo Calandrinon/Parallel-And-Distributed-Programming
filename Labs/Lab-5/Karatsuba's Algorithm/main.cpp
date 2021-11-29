@@ -3,6 +3,7 @@
 #include "PolynomialArithmetic.h"
 #include <fstream>
 #include <tuple>
+#include <chrono>
 
 #define POLYNOMIAL_PRINT_FLAG true
 
@@ -29,6 +30,52 @@ std::tuple<Polynomial, Polynomial> readPolynomials(std::string filename) {
     return std::make_tuple(firstPolynomial, secondPolynomial);
 }
 
+void regularMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolynomial) {
+    auto start = std::chrono::steady_clock::now();
+    Polynomial regularPolynomialMultiplicationResult = PolynomialArithmetic::computeRegularPolynomialMultiplication(
+            *firstPolynomial, *secondPolynomial);
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "Regular multiplication result:\n";
+    //regularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
+}
+
+
+void parallelizedRegularMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolynomial) {
+    auto start = std::chrono::steady_clock::now();
+    Polynomial parallelRegularPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplication(
+            *firstPolynomial, *secondPolynomial);
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "Parallel regular multiplication result:\n";
+    //parallelRegularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    // 0.5 seconds were subtracted, because a thread sleep is used
+    std::cout << "Elapsed time: " << elapsed_seconds.count() - 0.5  << " seconds\n";
+}
+
+void karatsubaMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolynomial) {
+    auto start = std::chrono::steady_clock::now();
+    Polynomial karatsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(
+            *firstPolynomial, *secondPolynomial);
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "Karatsuba multiplication result:\n";
+    //karatsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
+}
+
+void parallelizedKaratsubaMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolynomial) {
+    auto start = std::chrono::steady_clock::now();
+    Polynomial parallelKaratsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedKaratsubaPolynomialMultiplication(
+            *firstPolynomial, *secondPolynomial, 4);
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "Parallel Karatsuba multiplication result:\n";
+    //parallelKaratsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    std::chrono::duration<double> elapsed_seconds = end-start;
+    std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
+}
+
 
 int main() {
     // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
@@ -37,22 +84,9 @@ int main() {
     firstPolynomial.print(POLYNOMIAL_PRINT_FLAG);
     secondPolynomial.print(POLYNOMIAL_PRINT_FLAG);
 
-    Polynomial regularPolynomialMultiplicationResult = PolynomialArithmetic::computeRegularPolynomialMultiplication(
-            firstPolynomial, secondPolynomial);
-    Polynomial karatsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(
-            firstPolynomial, secondPolynomial);
-
-    std::cout << "Sequential regular multiplication result:\n";
-    regularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
-    std::cout << "Sequential Karatsuba multiplication result:\n";
-    karatsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
-    std::cout << "Parallel regular multiplication result:\n";
-    Polynomial parallelRegularPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplication(
-            firstPolynomial, secondPolynomial);
-    parallelRegularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
-    std::cout << "Parallel Karatsuba multiplication result:\n";
-    Polynomial parallelKaratsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedKaratsubaPolynomialMultiplication(
-            firstPolynomial, secondPolynomial, 4);
-    parallelKaratsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    regularMultiplication(&firstPolynomial, &secondPolynomial);
+    karatsubaMultiplication(&firstPolynomial, &secondPolynomial);
+    parallelizedRegularMultiplication(&firstPolynomial, &secondPolynomial);
+    parallelizedKaratsubaMultiplication(&firstPolynomial, &secondPolynomial);
     return 0;
 }
