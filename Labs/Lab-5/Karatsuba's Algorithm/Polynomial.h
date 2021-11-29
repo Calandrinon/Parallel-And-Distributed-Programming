@@ -7,6 +7,8 @@
 #include <iostream>
 #include <deque>
 #include <utility>
+#include <memory>
+
 #define MAX_POLYNOMIAL_DEGREE 100
 
 class Polynomial {
@@ -18,6 +20,7 @@ class Polynomial {
         Polynomial(int _degree);
         Polynomial(std::deque<int> _coefficients, int _degree);
         Polynomial copy();
+        std::shared_ptr<Polynomial> copyInHeap();
         const std::deque<int> &getCoefficients() const;
         void setCoefficients(const std::deque<int> &coefficients);
         int getDegree() const;

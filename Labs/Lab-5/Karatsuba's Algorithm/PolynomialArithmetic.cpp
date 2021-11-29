@@ -6,6 +6,7 @@
 #include <vector>
 #include <thread>
 #include <chrono>
+#include <future>
 #include "PolynomialArithmetic.h"
 #include "Polynomial.h"
 #include "ThreadPool.h"
@@ -106,11 +107,14 @@ Polynomial PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplicat
             for (int firstIndex = intervalStart; firstIndex < intervalEnd; firstIndex++) {
                 if (firstIndex > result->getNumberOfCoefficients())
                     return;
+
                 for (int secondIndex = 0; secondIndex <= firstIndex; secondIndex++) {
                     if (secondIndex < firstPolynomial.getNumberOfCoefficients() && (firstIndex - secondIndex) < secondPolynomial.getNumberOfCoefficients()) {
                         int previousValue = result->getCoefficientOfDegree(firstIndex);
-                        result->setCoefficientOfDegree(firstIndex,previousValue +
-                        firstPolynomial.getCoefficientOfDegree(secondIndex) * secondPolynomial.getCoefficientOfDegree(firstIndex - secondIndex));
+                        result->setCoefficientOfDegree(firstIndex, previousValue +
+                                                                   firstPolynomial.getCoefficientOfDegree(secondIndex) *
+                                                                   secondPolynomial.getCoefficientOfDegree(
+                                                                           firstIndex - secondIndex));
                     }
                 }
             }
@@ -121,4 +125,51 @@ Polynomial PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplicat
     threadPool.close();
 
     return *result;
+}
+
+Polynomial PolynomialArithmetic::computeParallelizedKaratsubaPolynomialMultiplication(Polynomial firstPolynomial,
+                                                                                      Polynomial secondPolynomial, int treeLevel) {
+    if (treeLevel > 4 || (firstPolynomial.getDegree() <= 1 || secondPolynomial.getDegree() <= 1))
+        return computeKaratsubaPolynomialMultiplication(firstPolynomial, secondPolynomial);
+
+    int halfSize = firstPolynomial.getNumberOfCoefficients() / 2;
+
+    Polynomial a(halfSize - 1), b(halfSize - 1), c(halfSize - 1), d(halfSize - 1);
+
+    for (int index = 0; index < halfSize; index++) {
+        a.setCoefficientOfDegree(index, firstPolynomial.getCoefficientOfDegree(index));
+        b.setCoefficientOfDegree(index, firstPolynomial.getCoefficientOfDegree(halfSize + index));
+    }
+
+    for (int index = 0; index < halfSize; index++) {
+        c.setCoefficientOfDegree(index, secondPolynomial.getCoefficientOfDegree(index));
+        d.setCoefficientOfDegree(index, secondPolynomial.getCoefficientOfDegree(halfSize + index));
+    }
+
+    std::future<Polynomial> acFuture, bdFuture, aPlusBTimesCPlusDFuture;
+    acFuture = std::async(std::launch::async, [=]() {
+        return computeParallelizedKaratsubaPolynomialMultiplication(a, c, treeLevel + 1);
+    });
+
+    bdFuture = std::async(std::launch::async, [=]() {
+        return computeParallelizedKaratsubaPolynomialMultiplication(b, d, treeLevel + 1);
+    });
+
+    Polynomial aPlusB = computeSimplePolynomialOperation(a, b, '+');
+    Polynomial cPlusD = computeSimplePolynomialOperation(c, d, '+');
+
+    aPlusBTimesCPlusDFuture = std::async(std::launch::async, ([=]() {
+        return computeParallelizedKaratsubaPolynomialMultiplication(aPlusB, cPlusD, treeLevel);
+    }));
+
+    Polynomial ac = acFuture.get();
+    Polynomial bd = bdFuture.get();
+    Polynomial aPlusBTimesCPlusD = aPlusBTimesCPlusDFuture.get();
+    Polynomial paddedBc = bd.copy();
+    paddedBc.padWithZeroes(2*halfSize);
+    Polynomial aPlusBTimesCPlusDMinusBd = computeSimplePolynomialOperation(aPlusBTimesCPlusD, bd, '-');
+    Polynomial partialResult = computeSimplePolynomialOperation(aPlusBTimesCPlusDMinusBd, ac, '-');
+    partialResult.padWithZeroes(halfSize);
+
+    return computeSimplePolynomialOperation(computeSimplePolynomialOperation(paddedBc, partialResult, '+'), ac, '+');
 }

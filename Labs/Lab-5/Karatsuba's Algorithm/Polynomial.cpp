@@ -2,6 +2,7 @@
 // Created by calandrinon on 11/27/21.
 //
 
+#include <memory>
 #include "Polynomial.h"
 
 Polynomial::Polynomial(int _degree): degree(_degree) {
@@ -72,4 +73,8 @@ void Polynomial::padWithZeroes(int numberOfZeroes) {
         this->coefficients.push_front(0);
         this->degree++;
     }
+}
+
+std::shared_ptr<Polynomial> Polynomial::copyInHeap() {
+    return std::make_shared<Polynomial>(*this);
 }

@@ -4,6 +4,8 @@
 #include <fstream>
 #include <tuple>
 
+#define POLYNOMIAL_PRINT_FLAG true
+
 std::tuple<Polynomial, Polynomial> readPolynomials(std::string filename) {
     std::ifstream in(filename);
     std::deque<int> coefficientsOfTheFirstPolynomial, coefficientsOfTheSecondPolynomial;
@@ -32,8 +34,8 @@ int main() {
     // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
     auto [firstPolynomial, secondPolynomial] = readPolynomials("../polynomials.txt");
 
-    firstPolynomial.print(true);
-    secondPolynomial.print(true);
+    firstPolynomial.print(POLYNOMIAL_PRINT_FLAG);
+    secondPolynomial.print(POLYNOMIAL_PRINT_FLAG);
 
     Polynomial regularPolynomialMultiplicationResult = PolynomialArithmetic::computeRegularPolynomialMultiplication(
             firstPolynomial, secondPolynomial);
@@ -41,12 +43,16 @@ int main() {
             firstPolynomial, secondPolynomial);
 
     std::cout << "Sequential regular multiplication result:\n";
-    regularPolynomialMultiplicationResult.print(true);
+    regularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::cout << "Sequential Karatsuba multiplication result:\n";
-    karatsubaPolynomialMultiplicationResult.print(true);
+    karatsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::cout << "Parallel regular multiplication result:\n";
     Polynomial parallelRegularPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplication(
             firstPolynomial, secondPolynomial);
-    parallelRegularPolynomialMultiplicationResult.print(true);
+    parallelRegularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    std::cout << "Parallel Karatsuba multiplication result:\n";
+    Polynomial parallelKaratsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedKaratsubaPolynomialMultiplication(
+            firstPolynomial, secondPolynomial, 4);
+    parallelKaratsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     return 0;
 }

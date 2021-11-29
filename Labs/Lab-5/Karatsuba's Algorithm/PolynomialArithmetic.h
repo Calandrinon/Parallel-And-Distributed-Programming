@@ -22,6 +22,10 @@ class PolynomialArithmetic {
 
         static Polynomial computeParallelizedRegularPolynomialMultiplication(Polynomial& firstPolynomial,
                                                                              Polynomial& secondPolynomial);
+
+        static Polynomial computeParallelizedKaratsubaPolynomialMultiplication(Polynomial firstPolynomial,
+                                                                               Polynomial secondPolynomial,
+                                                                               int treeLevel);
 };
 
 
