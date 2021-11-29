@@ -3,6 +3,8 @@
 //
 
 #include <memory>
+#include <random>
+#include <chrono>
 #include "Polynomial.h"
 
 Polynomial::Polynomial(int _degree): degree(_degree) {
@@ -77,4 +79,24 @@ void Polynomial::padWithZeroes(int numberOfZeroes) {
 
 std::shared_ptr<Polynomial> Polynomial::copyInHeap() {
     return std::make_shared<Polynomial>(*this);
+}
+
+Polynomial Polynomial::generateRandomPolynomialOfSpecificDegree(int degree) {
+    std::deque<int> coefficients;
+    auto randomEngine = std::default_random_engine(std::chrono::steady_clock::now().time_since_epoch().count());
+
+    for (int i = 0; i < degree + 1; i++)
+        coefficients.push_back(randomEngine() % 10 + 1);
+
+    Polynomial polynomial(coefficients, degree);
+
+    return polynomial;
+}
+
+std::string Polynomial::coefficientsAsString() {
+    std::string polynomialAsString;
+    for (int index = 0; index < this->degree + 1; index++)
+        polynomialAsString += std::to_string(this->coefficients[index]) + " ";
+
+    return polynomialAsString;
 }

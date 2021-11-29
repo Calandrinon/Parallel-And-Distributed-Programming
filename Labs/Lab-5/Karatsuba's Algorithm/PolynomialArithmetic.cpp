@@ -36,7 +36,7 @@ Polynomial PolynomialArithmetic::computeSimplePolynomialOperation(Polynomial fir
     Polynomial result(maximumDegree);
     int sign = (operation == '-' ? -1 : 1);
 
-    for (int index = 0; index < maximumDegree + 1; index++)
+    for (int index = 0; index < minimumDegree + 1; index++)
         result.setCoefficientOfDegree(index,
   firstPolynomial.getCoefficientOfDegree(index) + sign * secondPolynomial.getCoefficientOfDegree(index));
 

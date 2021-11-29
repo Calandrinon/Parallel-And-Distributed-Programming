@@ -9,8 +9,6 @@
 #include <utility>
 #include <memory>
 
-#define MAX_POLYNOMIAL_DEGREE 100
-
 class Polynomial {
     private:
         std::deque<int> coefficients;
@@ -20,6 +18,7 @@ class Polynomial {
         Polynomial(int _degree);
         Polynomial(std::deque<int> _coefficients, int _degree);
         Polynomial copy();
+        static Polynomial generateRandomPolynomialOfSpecificDegree(int degree);
         std::shared_ptr<Polynomial> copyInHeap();
         const std::deque<int> &getCoefficients() const;
         void setCoefficients(const std::deque<int> &coefficients);
@@ -29,6 +28,7 @@ class Polynomial {
         void setCoefficientOfDegree(int degree, int value);
         int getNumberOfCoefficients() const;
         void print(bool completePrint);
+        std::string coefficientsAsString();
         void padWithZeroes(int numberOfZeroes);
 };
 
