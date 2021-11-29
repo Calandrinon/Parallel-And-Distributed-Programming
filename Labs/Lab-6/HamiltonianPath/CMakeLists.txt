@@ -3,4 +3,4 @@ project(HamiltonianPath)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(HamiltonianPath main.cpp Graph.cpp Graph.h)
+add_executable(HamiltonianPath main.cpp Graph.cpp Graph.h HamiltonianCycleDetector.cpp HamiltonianCycleDetector.h)
