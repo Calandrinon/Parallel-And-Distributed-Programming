@@ -4,6 +4,8 @@
 
 #include <random>
 #include <chrono>
+#include <fstream>
+#include <memory>
 #include "Graph.h"
 
 Graph::Graph(int _numberOfNodes): numberOfNodes(_numberOfNodes) {
@@ -76,4 +78,38 @@ void Graph::print() {
         for (int neighbourIndex = 0; neighbourIndex < this->container[nodeIndex].size(); neighbourIndex++)
             std::cout << "(" << nodeIndex << "; " << this->container[nodeIndex][neighbourIndex] << ")\n";
     }
+}
+
+std::unique_ptr<Graph> Graph::readFromFile(const std::string& filename) {
+    std::ifstream in("../" + filename);
+    int numberOfNodes, numberOfEdges, firstNode, secondNode;
+    in >> numberOfNodes >> numberOfEdges;
+
+    std::unique_ptr<Graph> graph = std::make_unique<Graph>(numberOfNodes);
+
+    for (int edgeIndex = 0; edgeIndex < numberOfEdges; edgeIndex++) {
+        in >> firstNode >> secondNode;
+        graph->addEdge(firstNode, secondNode);
+    }
+
+    return graph;
+}
+
+void Graph::saveToFile(const std::string& filename) {
+    std::ofstream out("../" + filename);
+    int numberOfEdges = 0;
+    std::string graphAsText;
+
+    for (int nodeIndex = 0; nodeIndex < this->numberOfNodes; nodeIndex++) {
+        for (int neighbourIndex = 0; neighbourIndex < this->container[nodeIndex].size(); neighbourIndex++) {
+            numberOfEdges++;
+            graphAsText += std::to_string(nodeIndex ) + " "
+                    + std::to_string(this->container[nodeIndex][neighbourIndex]) + "\n";
+        }
+    }
+
+    out << this->numberOfNodes << " " << numberOfEdges << "\n";
+    out << graphAsText;
+
+    out.close();
 }

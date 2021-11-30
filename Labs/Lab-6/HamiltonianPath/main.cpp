@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "Graph.h"
 #include "HamiltonianCycleDetector.h"
 
@@ -32,13 +33,26 @@ void parallelImplementation(Graph* graph) {
     }
 }
 
-int main() {
-    Graph graph(12);
+void checkSequentialAndParallelImplementationsWithSavedInputGraph() {
+    std::unique_ptr<Graph> graph = Graph::readFromFile("example_graph.txt");
+    graph->print();
+
+    sequentialImplementation(&(*graph));
+    parallelImplementation(&(*graph));
+}
+
+void checkSequentialAndParallelImplementationsWithRandomInputGraph(int numberOfNodes) {
+    Graph graph(numberOfNodes);
     //graph.turnIntoCompleteGraph();
     graph.turnIntoRandomGraph();
     graph.print();
 
-    sequentialImplementation(&graph);
+    //sequentialImplementation(&graph);
     parallelImplementation(&graph);
+}
+
+int main() {
+    //checkSequentialAndParallelImplementationsWithSavedInputGraph();
+    checkSequentialAndParallelImplementationsWithRandomInputGraph(500);
     return 0;
 }

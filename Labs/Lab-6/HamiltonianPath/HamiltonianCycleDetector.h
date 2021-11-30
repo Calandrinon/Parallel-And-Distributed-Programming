@@ -9,12 +9,14 @@
 #include <vector>
 #include "Graph.h"
 #include <mutex>
+#include <atomic>
 
 class HamiltonianCycleDetector {
     private:
         std::vector<int> possibleHamiltonianCycle, solution;
         std::vector<std::vector<int>> solutionsForEachThread;
         bool solutionFound;
+        std::atomic<int> threadCounter;
         std::mutex mutex;
 
     public:

@@ -10,6 +10,7 @@
 
 HamiltonianCycleDetector::HamiltonianCycleDetector() {
     this->solutionFound = false;
+    this->threadCounter.store(0);
 }
 
 void HamiltonianCycleDetector::tryFromNode(Graph graph, int currentNode) {
@@ -63,8 +64,6 @@ void HamiltonianCycleDetector::parallelTryFromNode(Graph graph, int currentNode,
             mutex.unlock();
         }
         return;
-    } else if (possibleSolution->empty()) {
-        possibleSolution->push_back(currentNode);
     }
 
     for (int nodeIndex = 0; nodeIndex < graph.getNumberOfNodes() && !solutionFound; nodeIndex++) {
@@ -80,19 +79,21 @@ void HamiltonianCycleDetector::parallelTryFromNode(Graph graph, int currentNode,
 
 void HamiltonianCycleDetector::parallelHamiltonianCycleDetection(Graph graph) {
     std::vector<std::thread> threads;
-    int nodesPerThread = (int)(!graph.getNumberOfNodes() / std::thread::hardware_concurrency()
+    int numberOfNodes = graph.getNumberOfNodes();
+    int nodesPerThread = (int)(!numberOfNodes / std::thread::hardware_concurrency()
             ? 1
-            : graph.getNumberOfNodes() / std::thread::hardware_concurrency());
+            : numberOfNodes / std::thread::hardware_concurrency());
 
     for (int threadIndex = 0; threadIndex < std::thread::hardware_concurrency(); threadIndex++)
         this->solutionsForEachThread.emplace_back();
 
-    for (int nodeIndex = 0; nodeIndex < graph.getNumberOfNodes(); nodeIndex += nodesPerThread) {
-        threads.emplace_back([=]() {
-            int threadIndex = nodeIndex;
-            for (int chunkNode = nodeIndex; chunkNode < nodeIndex + nodesPerThread; chunkNode++) {
+    for (int nodeIndex = 0; nodeIndex < numberOfNodes; nodeIndex += nodesPerThread) {
+        threads.emplace_back([=]() mutable {
+            int threadIndex = this->threadCounter.fetch_add(1);
+            for (int chunkNode = nodeIndex; chunkNode < std::min(nodeIndex + nodesPerThread, numberOfNodes); chunkNode++) {
                 this->solutionsForEachThread[threadIndex].clear();
-                this->parallelTryFromNode(graph, chunkNode, &this->solutionsForEachThread[threadIndex]);
+                this->solutionsForEachThread[threadIndex].push_back(chunkNode);
+                this->parallelTryFromNode(graph, chunkNode, &(this->solutionsForEachThread[threadIndex]));
             }
         });
     }

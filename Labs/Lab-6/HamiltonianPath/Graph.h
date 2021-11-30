@@ -21,6 +21,8 @@ class Graph {
         void turnIntoRandomGraph();
         bool doesEdgeExist(int firstNode, int secondNode);
         void print();
+        static std::unique_ptr<Graph> readFromFile(const std::string& filename);
+        void saveToFile(const std::string& filename);
 };
 
 
