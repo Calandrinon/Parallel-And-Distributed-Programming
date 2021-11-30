@@ -43,12 +43,23 @@ void checkSequentialAndParallelImplementationsWithSavedInputGraph() {
 
 void checkSequentialAndParallelImplementationsWithRandomInputGraph(int numberOfNodes) {
     Graph graph(numberOfNodes);
-    //graph.turnIntoCompleteGraph();
     graph.turnIntoRandomGraph();
-    graph.print();
+    graph.saveToFile("last_generated_graph.txt");
 
-    //sequentialImplementation(&graph);
+    auto startSequential = std::chrono::steady_clock::now();
+    sequentialImplementation(&graph);
+    auto endSequential = std::chrono::steady_clock::now();
+
+    auto startParallel = std::chrono::steady_clock::now();
     parallelImplementation(&graph);
+    auto endParallel = std::chrono::steady_clock::now();
+
+    std::chrono::duration<double> sequentialExecutionTime = endSequential - startSequential;
+    std::chrono::duration<double> parallelExecutionTime = endParallel - startParallel;
+
+    std::cout << "Execution time:\n";
+    std::cout << "Sequential implementation -> " << sequentialExecutionTime.count() << " seconds\n";
+    std::cout << "Parallel implementation -> " << parallelExecutionTime.count() << " seconds\n";
 }
 
 int main() {
