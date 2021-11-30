@@ -8,18 +8,24 @@
 
 #include <vector>
 #include "Graph.h"
+#include <mutex>
 
 class HamiltonianCycleDetector {
     private:
-        std::vector<int> possibleHamiltonianCycle;
+        std::vector<int> possibleHamiltonianCycle, solution;
+        std::vector<std::vector<int>> solutionsForEachThread;
         bool solutionFound;
+        std::mutex mutex;
 
     public:
         HamiltonianCycleDetector();
         void tryFromNode(Graph graph, int currentNode);
+        void parallelTryFromNode(Graph graph, int currentNode, std::vector<int>* possibleSolution);
         bool sequentialHamiltonianCycleDetection(Graph graph);
+        void parallelHamiltonianCycleDetection(Graph graph);
         std::vector<int> getHamiltonCycle();
-        bool hasSolution();
+        std::vector<int> getParallelSolution();
+        bool hasSolution() const;
 };
 
 
