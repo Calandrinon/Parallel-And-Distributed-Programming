@@ -35,6 +35,17 @@ void HamiltonianCycleDetector::tryFromNode(Graph graph, int currentNode = 0) {
     }
 }
 
+bool HamiltonianCycleDetector::sequentialHamiltonianCycleDetection(Graph graph) {
+    for (int nodeIndex = 0; nodeIndex < graph.getNumberOfNodes(); nodeIndex++) {
+        this->possibleHamiltonianCycle.clear();
+        this->tryFromNode(graph, nodeIndex);
+        if (this->solutionFound)
+            return true;
+    }
+
+    return false;
+}
+
 std::vector<int> HamiltonianCycleDetector::getHamiltonCycle() {
     return this->possibleHamiltonianCycle;
 }

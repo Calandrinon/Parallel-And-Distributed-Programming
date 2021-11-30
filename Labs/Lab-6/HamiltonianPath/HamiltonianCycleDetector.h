@@ -17,6 +17,7 @@ class HamiltonianCycleDetector {
     public:
         HamiltonianCycleDetector();
         void tryFromNode(Graph graph, int currentNode);
+        bool sequentialHamiltonianCycleDetection(Graph graph);
         std::vector<int> getHamiltonCycle();
         bool hasSolution();
 };
