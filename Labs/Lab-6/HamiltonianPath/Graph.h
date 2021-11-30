@@ -18,6 +18,8 @@ class Graph {
         std::vector<int> getAdjacentNodes(int node);
         int getNumberOfNodes();
         void turnIntoCompleteGraph();
+        void turnIntoRandomGraph();
+        bool doesEdgeExist(int firstNode, int secondNode);
         void print();
 };
 

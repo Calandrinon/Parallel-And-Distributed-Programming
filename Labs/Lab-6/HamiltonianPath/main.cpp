@@ -3,16 +3,21 @@
 #include "HamiltonianCycleDetector.h"
 
 int main() {
-    Graph graph(10);
-    graph.turnIntoCompleteGraph();
+    Graph graph(30);
+    //graph.turnIntoCompleteGraph();
+    graph.turnIntoRandomGraph();
+    graph.print();
 
     HamiltonianCycleDetector hamiltonianCycleDetector;
-    hamiltonianCycleDetector.sequentialCycleDetection(graph);
+    hamiltonianCycleDetector.tryFromNode(graph, 0);
     std::vector<int> hamiltonianCycle = hamiltonianCycleDetector.getHamiltonCycle();
 
-    std::cout << "The Hamiltonian cycle is:\n";
-    for (int node: hamiltonianCycle)
-        std::cout << node << " ";
-    std::cout << hamiltonianCycle[0] << "\n";
+    if (hamiltonianCycleDetector.hasSolution()) {
+        std::cout << "The Hamiltonian cycle is:\n";
+        for (int nodeIndex : hamiltonianCycle)
+            std::cout << nodeIndex << " ";
+    } else {
+        std::cout << "The graph has no Hamiltonian cycle.\n";
+    }
     return 0;
 }
