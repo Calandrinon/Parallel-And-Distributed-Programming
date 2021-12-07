@@ -63,7 +63,7 @@ void checkSequentialAndParallelImplementationsWithRandomInputGraph(int numberOfN
 }
 
 int main() {
-    //checkSequentialAndParallelImplementationsWithSavedInputGraph();
-    checkSequentialAndParallelImplementationsWithRandomInputGraph(500);
+    checkSequentialAndParallelImplementationsWithSavedInputGraph();
+    //checkSequentialAndParallelImplementationsWithRandomInputGraph(500);
     return 0;
 }

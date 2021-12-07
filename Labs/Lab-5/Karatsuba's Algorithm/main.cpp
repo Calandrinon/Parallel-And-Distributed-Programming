@@ -36,7 +36,7 @@ void regularMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolyno
             *firstPolynomial, *secondPolynomial);
     auto end = std::chrono::steady_clock::now();
     std::cout << "Regular multiplication result:\n";
-    //regularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    regularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
 }
@@ -48,7 +48,7 @@ void parallelizedRegularMultiplication(Polynomial* firstPolynomial, Polynomial* 
             *firstPolynomial, *secondPolynomial);
     auto end = std::chrono::steady_clock::now();
     std::cout << "Parallel regular multiplication result:\n";
-    //parallelRegularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    parallelRegularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::chrono::duration<double> elapsed_seconds = end-start;
     // 0.5 seconds were subtracted, because a thread sleep is used
     std::cout << "Elapsed time: " << elapsed_seconds.count() - 0.5  << " seconds\n";
@@ -60,7 +60,7 @@ void karatsubaMultiplication(Polynomial* firstPolynomial, Polynomial* secondPoly
             *firstPolynomial, *secondPolynomial);
     auto end = std::chrono::steady_clock::now();
     std::cout << "Karatsuba multiplication result:\n";
-    //karatsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    karatsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
 }
@@ -71,7 +71,7 @@ void parallelizedKaratsubaMultiplication(Polynomial* firstPolynomial, Polynomial
             *firstPolynomial, *secondPolynomial, 4);
     auto end = std::chrono::steady_clock::now();
     std::cout << "Parallel Karatsuba multiplication result:\n";
-    //parallelKaratsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    parallelKaratsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
 }
