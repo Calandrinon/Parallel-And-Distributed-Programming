@@ -6,6 +6,7 @@
 #include <chrono>
 #include "mpi.h"
 
+#define POLYNOMIAL_LENGTH 31 // must be of the form (2^n - 1)
 #define POLYNOMIAL_PRINT_FLAG true
 
 std::tuple<Polynomial, Polynomial> readPolynomials(std::string filename) {
@@ -70,10 +71,34 @@ void runMasterAndWorker(int argc, char* argv[]) {
 
 
 int main(int argc, char* argv[]) {
-    // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
-    auto [firstPolynomial, secondPolynomial] = readPolynomials("../polynomials.txt");
+    int rank, size;
 
-    runMasterAndWorker(argc, argv);
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    if (!rank) {
+        // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
+        Polynomial firstPolynomial = Polynomial::generateRandomPolynomialOfSpecificDegree(POLYNOMIAL_LENGTH);
+        Polynomial secondPolynomial = Polynomial::generateRandomPolynomialOfSpecificDegree(POLYNOMIAL_LENGTH);
+
+        std::cout << "\n";
+        printf("I am master process %d.\n", rank);
+
+        /**
+        firstPolynomial.print(POLYNOMIAL_PRINT_FLAG);
+        secondPolynomial.print(POLYNOMIAL_PRINT_FLAG);
+         **/
+
+        std::string serialisedFirstPolynomial = firstPolynomial.serialize();
+        printf("First polynomial serialized:\n%s\n", serialisedFirstPolynomial.c_str());
+        Polynomial deserializedPolynomial = Polynomial::deserialize(serialisedFirstPolynomial.c_str());
+        deserializedPolynomial.print(POLYNOMIAL_PRINT_FLAG);
+    } else {
+        printf("I am worker process %d.\n", rank);
+    }
+
+    MPI_Finalize();
 
     return 0;
 }

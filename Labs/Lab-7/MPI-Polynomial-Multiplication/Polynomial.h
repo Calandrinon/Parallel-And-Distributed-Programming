@@ -30,6 +30,8 @@ class Polynomial {
         void print(bool completePrint);
         std::string coefficientsAsString();
         void padWithZeroes(int numberOfZeroes);
+        std::string serialize();
+        static Polynomial deserialize(const char* array);
 };
 
 

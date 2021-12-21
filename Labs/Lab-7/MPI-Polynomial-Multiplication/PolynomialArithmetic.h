@@ -20,8 +20,8 @@ class PolynomialArithmetic {
         static Polynomial computeKaratsubaPolynomialMultiplication(Polynomial firstPolynomial,
                                                                    Polynomial secondPolynomial);
 
-        static Polynomial computeDistributedRegularPolynomialMultiplication(Polynomial& firstPolynomial,
-                                                                            Polynomial& secondPolynomial);
+        static void computeMasterMultiplicationTask(Polynomial firstPolynomial, Polynomial secondPolynomial,
+                                                    int numberOfProcesses);
 };
 
 

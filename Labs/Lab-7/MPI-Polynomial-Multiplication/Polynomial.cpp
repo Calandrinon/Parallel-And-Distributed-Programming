@@ -5,6 +5,7 @@
 #include <memory>
 #include <random>
 #include <chrono>
+#include <sstream>
 #include "Polynomial.h"
 
 Polynomial::Polynomial(int _degree): degree(_degree) {
@@ -99,4 +100,37 @@ std::string Polynomial::coefficientsAsString() {
         polynomialAsString += std::to_string(this->coefficients[index]) + " ";
 
     return polynomialAsString;
+}
+
+
+std::string Polynomial::serialize() {
+    std::string polynomialAsString;
+
+    for (int coefficientIndex = 0; coefficientIndex < coefficients.size(); coefficientIndex++) {
+        if (coefficientIndex)
+            polynomialAsString += ";";
+        polynomialAsString += std::to_string(coefficients[coefficientIndex]);
+    }
+
+    return polynomialAsString;
+}
+
+
+Polynomial Polynomial::deserialize(const char* array) {
+    std::string polynomialAsString(array);
+
+    std::stringstream test(polynomialAsString);
+    std::string segment;
+    std::vector<std::string> segmentList;
+    std::deque<int> coefficients;
+
+    while(std::getline(test, segment, ';')) {
+        segmentList.push_back(segment);
+        coefficients.push_back(std::stoi(segment));
+    }
+
+    Polynomial obtainedPolynomial((int)segmentList.size() - 1);
+    obtainedPolynomial.setCoefficients(coefficients);
+
+    return obtainedPolynomial;
 }

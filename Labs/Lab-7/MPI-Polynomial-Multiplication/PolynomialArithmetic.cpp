@@ -7,6 +7,7 @@
 #include <thread>
 #include <chrono>
 #include <future>
+#include <mpi.h>
 #include "PolynomialArithmetic.h"
 #include "Polynomial.h"
 
@@ -92,7 +93,16 @@ Polynomial PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(Polyno
 }
 
 
-Polynomial PolynomialArithmetic::computeDistributedRegularPolynomialMultiplication(Polynomial& firstPolynomial,
-                                                                                   Polynomial& secondPolynomial) {
+static void computeMasterMultiplicationTask(Polynomial& firstPolynomial, Polynomial& secondPolynomial,
+                                            int numberOfProcesses) {
+    int chunkSize = (firstPolynomial.getDegree() - 1) / (numberOfProcesses - 1);
+    int intervalStart = 0, intervalEnd = 0;
+
+    for (int processIndex = 1; processIndex < numberOfProcesses; processIndex++) {
+        intervalStart = processIndex;
+        intervalEnd = (processIndex == numberOfProcesses - 1 ? firstPolynomial.getDegree() - 1 : intervalStart + chunkSize);
+
+        //MPI_Send(firstPolynomial, 0, )
+    }
 
 }
