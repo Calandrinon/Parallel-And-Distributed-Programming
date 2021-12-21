@@ -78,7 +78,8 @@ void runMasterAndWorker(int argc, char* argv[]) {
         PolynomialArithmetic::computeMasterMultiplicationTask(firstPolynomial, secondPolynomial, size);
     } else {
         printf("I am worker process %d.\n", rank);
-        PolynomialArithmetic::runWorkerComputingRegularMultiplication(rank);
+        // PolynomialArithmetic::runWorkerComputingRegularMultiplication(rank);
+        PolynomialArithmetic::runWorkerComputingKaratsubaMultiplication(rank);
     }
 
     MPI_Finalize();

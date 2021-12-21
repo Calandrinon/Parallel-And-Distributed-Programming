@@ -252,3 +252,64 @@ Polynomial PolynomialArithmetic::computeRegularPolynomialMultiplicationBetweenXA
 
     return result;
 }
+
+void PolynomialArithmetic::runWorkerComputingKaratsubaMultiplication(int processId) {
+    printf("Worker %d\n", processId);
+
+    std::string firstPolynomialAsString, secondPolynomialAsString;
+    int intervalStart, intervalEnd, lengthOfTheFirstSerializedPolynomial, lengthOfTheSecondSerializedPolynomial;
+    MPI_Status status[6];
+
+    printf("Worker: Receiving polynomial chunk...\n");
+    printf("Worker: Receiving interval start...\n");
+    MPI_Recv(&intervalStart, 1, MPI_INT, 0, MPI_POLYNOMIAL_RANGE_START, MPI_COMM_WORLD, &status[0]);
+    printf("Worker: Received interval start: %d\n", intervalStart);
+    printf("Worker: Receiving interval end...\n");
+    MPI_Recv(&intervalEnd, 1, MPI_INT, 0, MPI_POLYNOMIAL_RANGE_END, MPI_COMM_WORLD, &status[1]);
+    printf("Worker: Received interval end: %d\n", intervalEnd);
+
+    printf("Worker: Receiving length of the first serialized polynomial...\n");
+    MPI_Recv(&lengthOfTheFirstSerializedPolynomial, 1, MPI_INT, 0, MPI_POLYNOMIAL_MESSAGE_LENGTH, MPI_COMM_WORLD, &status[2]);
+    printf("Worker: Received length of the first serialized polynomial.\n");
+    printf("Worker: Receiving length of the second serialized polynomial...\n");
+    MPI_Recv(&lengthOfTheSecondSerializedPolynomial, 1, MPI_INT, 0, MPI_POLYNOMIAL_MESSAGE_LENGTH, MPI_COMM_WORLD, &status[3]);
+    printf("Worker: Received length of the second serialized polynomial.\n");
+
+    char* firstPolynomialAsConstChar = (char*) malloc(lengthOfTheFirstSerializedPolynomial * sizeof(char));
+    char* secondPolynomialAsConstChar = (char*) malloc(lengthOfTheSecondSerializedPolynomial * sizeof(char));
+
+    printf("Worker: Receiving first serialized polynomial...\n");
+    MPI_Recv(firstPolynomialAsConstChar, lengthOfTheFirstSerializedPolynomial + 1, MPI_CHAR, 0, MPI_POLYNOMIAL_MESSAGE, MPI_COMM_WORLD, &status[4]);
+    printf("Worker: Received first serialized polynomial.\n");
+    printf("Worker: Receiving second serialized polynomial...\n");
+    MPI_Recv(secondPolynomialAsConstChar, lengthOfTheSecondSerializedPolynomial + 1, MPI_CHAR, 0, MPI_POLYNOMIAL_MESSAGE, MPI_COMM_WORLD, &status[5]);
+    printf("Worker: Received second serialized polynomial.\n");
+
+    printf("Worker: Received polynomial chunk...\n");
+
+
+    printf("Worker: Computing the polynomial multiplication...\n");
+    Polynomial firstPolynomial = Polynomial::deserialize(firstPolynomialAsConstChar);
+    Polynomial secondPolynomial = Polynomial::deserialize(secondPolynomialAsConstChar);
+
+    for (int index = 0; index < firstPolynomial.getNumberOfCoefficients(); index++) {
+        if (index < intervalStart || index >= intervalEnd)
+            firstPolynomial.setCoefficientOfDegree(index, 0);
+    }
+
+    Polynomial result = computeKaratsubaPolynomialMultiplication(firstPolynomial, secondPolynomial);
+    printf("Worker: Computed the Karatsuba polynomial multiplication.\n");
+
+
+    free(firstPolynomialAsConstChar);
+    free(secondPolynomialAsConstChar);
+
+    std::string responsePolynomial = result.serialize();
+    const char* responsePolynomialAsString = responsePolynomial.c_str();
+    int responseLength = (int)responsePolynomial.size();
+
+    printf("Worker: Sending Karatsuba polynomial chunk back to the master...\n");
+    MPI_Send(&responseLength, 1, MPI_INT, 0, MPI_POLYNOMIAL_MESSAGE_LENGTH, MPI_COMM_WORLD);
+    MPI_Send(responsePolynomialAsString, responseLength + 1, MPI_CHAR, 0, MPI_POLYNOMIAL_MESSAGE, MPI_COMM_WORLD);
+    printf("Worker: Sent the Karatsuba polynomial chunk back to the master...\n");
+}

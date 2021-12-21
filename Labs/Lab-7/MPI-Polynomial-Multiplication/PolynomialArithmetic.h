@@ -28,8 +28,10 @@ class PolynomialArithmetic {
 
         static void runWorkerComputingRegularMultiplication(int processId);
 
+        static void runWorkerComputingKaratsubaMultiplication(int processId);
+
         static Polynomial computeRegularPolynomialMultiplicationBetweenXAndY(Polynomial& firstPolynomial, Polynomial& secondPolynomial,
-                                                                       int intervalStart, int intervalEnd);
+                                                                           int intervalStart, int intervalEnd);
 };
 
 
