@@ -20,13 +20,6 @@ class PolynomialArithmetic {
         static Polynomial computeKaratsubaPolynomialMultiplication(Polynomial firstPolynomial,
                                                                    Polynomial secondPolynomial);
 
-        static Polynomial computeParallelizedRegularPolynomialMultiplication(Polynomial& firstPolynomial,
-                                                                             Polynomial& secondPolynomial);
-
-        static Polynomial computeParallelizedKaratsubaPolynomialMultiplication(Polynomial firstPolynomial,
-                                                                               Polynomial secondPolynomial,
-                                                                               int treeLevel);
-
         static Polynomial computeDistributedRegularPolynomialMultiplication(Polynomial& firstPolynomial,
                                                                             Polynomial& secondPolynomial);
 };

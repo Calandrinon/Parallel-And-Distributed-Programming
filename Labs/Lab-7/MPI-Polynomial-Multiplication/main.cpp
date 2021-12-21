@@ -43,18 +43,6 @@ void regularMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolyno
 }
 
 
-void parallelizedRegularMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolynomial) {
-    auto start = std::chrono::steady_clock::now();
-    Polynomial parallelRegularPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedRegularPolynomialMultiplication(
-            *firstPolynomial, *secondPolynomial);
-    auto end = std::chrono::steady_clock::now();
-    std::cout << "Parallel regular multiplication result:\n";
-    parallelRegularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    // 0.5 seconds were subtracted, because a thread sleep is used
-    std::cout << "Elapsed time: " << elapsed_seconds.count() - 0.5  << " seconds\n";
-}
-
 void karatsubaMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolynomial) {
     auto start = std::chrono::steady_clock::now();
     Polynomial karatsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(
@@ -66,28 +54,8 @@ void karatsubaMultiplication(Polynomial* firstPolynomial, Polynomial* secondPoly
     std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
 }
 
-void parallelizedKaratsubaMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolynomial) {
-    auto start = std::chrono::steady_clock::now();
-    Polynomial parallelKaratsubaPolynomialMultiplicationResult = PolynomialArithmetic::computeParallelizedKaratsubaPolynomialMultiplication(
-            *firstPolynomial, *secondPolynomial, 4);
-    auto end = std::chrono::steady_clock::now();
-    std::cout << "Parallel Karatsuba multiplication result:\n";
-    parallelKaratsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
-}
 
-void runMasterAndWorker() {
-}
-
-
-int main(int argc, char* argv[]) {
-    // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
-    auto [firstPolynomial, secondPolynomial] = readPolynomials("../polynomials.txt");
-
-    firstPolynomial.print(POLYNOMIAL_PRINT_FLAG);
-    secondPolynomial.print(POLYNOMIAL_PRINT_FLAG);
-
+void runMasterAndWorker(int argc, char* argv[]) {
     int rank, size, len;
     char version[MPI_MAX_LIBRARY_VERSION_STRING];
 
@@ -98,6 +66,14 @@ int main(int argc, char* argv[]) {
     printf("Hello, world, I am %d of %d, (%s, %d)\n",
            rank, size, version, len);
     MPI_Finalize();
+}
+
+
+int main(int argc, char* argv[]) {
+    // CLion only reads files from the debug directory, hence the ../ expression used in the filepath
+    auto [firstPolynomial, secondPolynomial] = readPolynomials("../polynomials.txt");
+
+    runMasterAndWorker(argc, argv);
 
     return 0;
 }

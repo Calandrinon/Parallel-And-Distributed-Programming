@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS -pthread)
 include_directories(/usr/lib/x86_64-linux-gnu/openmpi/include)
 
-add_executable(Karatsuba_s_Algorithm main.cpp Polynomial.cpp Polynomial.h PolynomialArithmetic.cpp PolynomialArithmetic.h ThreadPool.h)
+add_executable(Karatsuba_s_Algorithm main.cpp Polynomial.cpp Polynomial.h PolynomialArithmetic.cpp PolynomialArithmetic.h)
