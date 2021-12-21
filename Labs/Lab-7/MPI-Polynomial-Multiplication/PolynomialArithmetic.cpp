@@ -98,12 +98,12 @@ Polynomial PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(Polyno
 
 void PolynomialArithmetic::computeMasterMultiplicationTask(Polynomial& firstPolynomial, Polynomial& secondPolynomial,
                                             int numberOfProcesses) {
-    int chunkSize = (firstPolynomial.getDegree() - 1) / (numberOfProcesses - 1);
+    int chunkSize = firstPolynomial.getNumberOfCoefficients() / (numberOfProcesses - 1);
     int intervalStart = 0, intervalEnd = 0;
 
     for (int processIndex = 1; processIndex < numberOfProcesses; processIndex++) {
-        intervalStart = processIndex;
-        intervalEnd = (processIndex == numberOfProcesses - 1 ? firstPolynomial.getDegree() - 1 : intervalStart + chunkSize);
+        intervalStart = (processIndex - 1) * chunkSize;
+        intervalEnd = (processIndex == numberOfProcesses - 1 ? firstPolynomial.getNumberOfCoefficients() : intervalStart + chunkSize);
 
         std::string serializedFirstPolynomial = firstPolynomial.serialize();
         std::string serializedSecondPolynomial = secondPolynomial.serialize();
@@ -162,6 +162,8 @@ void PolynomialArithmetic::computeMasterMultiplicationTask(Polynomial& firstPoly
     }
 
     Polynomial finalResult = reconstructFinalPolynomial(polynomials);
+
+    printf("Master: The result is %s\n", finalResult.serialize().c_str());
 }
 
 Polynomial PolynomialArithmetic::reconstructFinalPolynomial(std::vector<Polynomial> results) {
@@ -189,10 +191,10 @@ void PolynomialArithmetic::runWorkerComputingRegularMultiplication(int processId
     printf("Worker: Receiving polynomial chunk...\n");
     printf("Worker: Receiving interval start...\n");
     MPI_Recv(&intervalStart, 1, MPI_INT, 0, MPI_POLYNOMIAL_RANGE_START, MPI_COMM_WORLD, &status[0]);
-    printf("Worker: Received interval start.\n");
+    printf("Worker: Received interval start: %d\n", intervalStart);
     printf("Worker: Receiving interval end...\n");
     MPI_Recv(&intervalEnd, 1, MPI_INT, 0, MPI_POLYNOMIAL_RANGE_END, MPI_COMM_WORLD, &status[1]);
-    printf("Worker: Received interval end.\n");
+    printf("Worker: Received interval end: %d\n", intervalEnd);
 
     printf("Worker: Receiving length of the first serialized polynomial...\n");
     MPI_Recv(&lengthOfTheFirstSerializedPolynomial, 1, MPI_INT, 0, MPI_POLYNOMIAL_MESSAGE_LENGTH, MPI_COMM_WORLD, &status[2]);
