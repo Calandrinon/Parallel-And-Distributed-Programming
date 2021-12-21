@@ -20,8 +20,10 @@ class PolynomialArithmetic {
         static Polynomial computeKaratsubaPolynomialMultiplication(Polynomial firstPolynomial,
                                                                    Polynomial secondPolynomial);
 
-        static void computeMasterMultiplicationTask(Polynomial firstPolynomial, Polynomial secondPolynomial,
+        static void computeMasterMultiplicationTask(Polynomial& firstPolynomial, Polynomial& secondPolynomial,
                                                     int numberOfProcesses);
+
+        static Polynomial reconstructFinalPolynomial(std::vector<Polynomial> results);
 };
 
 

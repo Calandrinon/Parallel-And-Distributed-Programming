@@ -10,7 +10,10 @@
 #include <mpi.h>
 #include "PolynomialArithmetic.h"
 #include "Polynomial.h"
-
+#define MPI_POLYNOMIAL_MESSAGE_LENGTH 0
+#define MPI_POLYNOMIAL_MESSAGE 1
+#define MPI_POLYNOMIAL_RANGE_START 2
+#define MPI_POLYNOMIAL_RANGE_END 3
 
 Polynomial PolynomialArithmetic::computeRegularPolynomialMultiplication(Polynomial firstPolynomial,
                                                                       Polynomial secondPolynomial) {
@@ -93,7 +96,7 @@ Polynomial PolynomialArithmetic::computeKaratsubaPolynomialMultiplication(Polyno
 }
 
 
-static void computeMasterMultiplicationTask(Polynomial& firstPolynomial, Polynomial& secondPolynomial,
+void PolynomialArithmetic::computeMasterMultiplicationTask(Polynomial& firstPolynomial, Polynomial& secondPolynomial,
                                             int numberOfProcesses) {
     int chunkSize = (firstPolynomial.getDegree() - 1) / (numberOfProcesses - 1);
     int intervalStart = 0, intervalEnd = 0;
@@ -102,7 +105,55 @@ static void computeMasterMultiplicationTask(Polynomial& firstPolynomial, Polynom
         intervalStart = processIndex;
         intervalEnd = (processIndex == numberOfProcesses - 1 ? firstPolynomial.getDegree() - 1 : intervalStart + chunkSize);
 
-        //MPI_Send(firstPolynomial, 0, )
+        std::string serializedFirstPolynomial = firstPolynomial.serialize();
+        std::string serializedSecondPolynomial = secondPolynomial.serialize();
+        int lengthOfTheFirstSerializedPolynomial = (int)serializedFirstPolynomial.size();
+        int lengthOfTheSecondSerializedPolynomial = (int)serializedSecondPolynomial.size();
+        const char* firstPolynomialAsConstChar = serializedFirstPolynomial.c_str();
+        const char* secondPolynomialAsConstChar = serializedSecondPolynomial.c_str();
+
+        MPI_Send(firstPolynomialAsConstChar, lengthOfTheFirstSerializedPolynomial + 1, MPI_CHAR, 0, MPI_POLYNOMIAL_MESSAGE, MPI_COMM_WORLD);
+        MPI_Send(secondPolynomialAsConstChar, lengthOfTheSecondSerializedPolynomial + 1, MPI_CHAR, 0, MPI_POLYNOMIAL_MESSAGE, MPI_COMM_WORLD);
+
+        MPI_Send(&lengthOfTheFirstSerializedPolynomial, 1, MPI_INT, 0, MPI_POLYNOMIAL_MESSAGE_LENGTH, MPI_COMM_WORLD);
+        MPI_Send(&lengthOfTheSecondSerializedPolynomial, 1, MPI_INT, 0, MPI_POLYNOMIAL_MESSAGE_LENGTH, MPI_COMM_WORLD);
+
+        MPI_Send(&intervalStart, 1, MPI_INT, 0, MPI_POLYNOMIAL_RANGE_START, MPI_COMM_WORLD);
+        MPI_Send(&intervalEnd, 1, MPI_INT, 0, MPI_POLYNOMIAL_RANGE_END, MPI_COMM_WORLD);
     }
 
+    std::vector<std::string> results;
+    std::vector<Polynomial> polynomials;
+    int responseLength;
+    MPI_Status status[2];
+
+    for (int processIndex = 1; processIndex < numberOfProcesses; processIndex++) {
+        MPI_Recv(&responseLength, 1, MPI_INT, 0, MPI_POLYNOMIAL_MESSAGE_LENGTH, MPI_COMM_WORLD, &status[0]);
+        char* buffer = (char*)malloc(responseLength*sizeof(int));
+        MPI_Recv(buffer, responseLength + 1, MPI_CHAR, processIndex, MPI_POLYNOMIAL_MESSAGE, MPI_COMM_WORLD, &status[1]);
+        std::string result(buffer);
+        results.push_back(result);
+        free(buffer);
+    }
+
+    for (int processIndex = 1; processIndex < numberOfProcesses; processIndex++) {
+        polynomials.push_back(Polynomial::deserialize(results[processIndex - 1].c_str()));
+    }
+
+    Polynomial finalResult = reconstructFinalPolynomial(polynomials);
+
+}
+
+Polynomial PolynomialArithmetic::reconstructFinalPolynomial(std::vector<Polynomial> results) {
+    int degreeOfThePolynomial = results[0].getDegree();
+    Polynomial finalResult(degreeOfThePolynomial);
+
+    for (int coefficientIndex = 0; coefficientIndex < finalResult.getNumberOfCoefficients(); coefficientIndex++) {
+        for (Polynomial polynomial: results) {
+            int newValue = finalResult.getCoefficientOfDegree(coefficientIndex) + polynomial.getCoefficientOfDegree(coefficientIndex);
+            finalResult.setCoefficientOfDegree(coefficientIndex, newValue);
+        }
+    }
+
+    return finalResult;
 }

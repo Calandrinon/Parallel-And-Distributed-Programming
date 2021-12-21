@@ -85,15 +85,10 @@ int main(int argc, char* argv[]) {
         std::cout << "\n";
         printf("I am master process %d.\n", rank);
 
-        /**
         firstPolynomial.print(POLYNOMIAL_PRINT_FLAG);
         secondPolynomial.print(POLYNOMIAL_PRINT_FLAG);
-         **/
 
-        std::string serialisedFirstPolynomial = firstPolynomial.serialize();
-        printf("First polynomial serialized:\n%s\n", serialisedFirstPolynomial.c_str());
-        Polynomial deserializedPolynomial = Polynomial::deserialize(serialisedFirstPolynomial.c_str());
-        deserializedPolynomial.print(POLYNOMIAL_PRINT_FLAG);
+        PolynomialArithmetic::computeMasterMultiplicationTask(firstPolynomial, secondPolynomial, size);
     } else {
         printf("I am worker process %d.\n", rank);
     }
