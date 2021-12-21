@@ -7,6 +7,7 @@
 
 
 #include "Polynomial.h"
+#include <vector>
 
 class PolynomialArithmetic {
     public:
@@ -24,6 +25,11 @@ class PolynomialArithmetic {
                                                     int numberOfProcesses);
 
         static Polynomial reconstructFinalPolynomial(std::vector<Polynomial> results);
+
+        static void runWorkerComputingRegularMultiplication(int processId);
+
+        static Polynomial computeRegularPolynomialMultiplicationBetweenXAndY(Polynomial& firstPolynomial, Polynomial& secondPolynomial,
+                                                                       int intervalStart, int intervalEnd);
 };
 
 

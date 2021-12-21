@@ -91,6 +91,7 @@ int main(int argc, char* argv[]) {
         PolynomialArithmetic::computeMasterMultiplicationTask(firstPolynomial, secondPolynomial, size);
     } else {
         printf("I am worker process %d.\n", rank);
+        PolynomialArithmetic::runWorkerComputingRegularMultiplication(rank);
     }
 
     MPI_Finalize();
