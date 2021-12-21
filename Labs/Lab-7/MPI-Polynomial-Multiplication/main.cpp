@@ -6,7 +6,7 @@
 #include <chrono>
 #include "mpi.h"
 
-#define POLYNOMIAL_LENGTH 7 // must be of the form (2^n - 1)
+#define POLYNOMIAL_LENGTH 8191 // must be of the form (2^n - 1)
 #define POLYNOMIAL_PRINT_FLAG true
 
 std::tuple<Polynomial, Polynomial> readPolynomials(std::string filename) {
@@ -38,7 +38,7 @@ void regularMultiplication(Polynomial* firstPolynomial, Polynomial* secondPolyno
             *firstPolynomial, *secondPolynomial);
     auto end = std::chrono::steady_clock::now();
     std::cout << "Non-distributed regular polynomial multiplication result for checking:\n";
-    regularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    // regularPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::chrono::duration<double> elapsed_seconds = end-start;
     //std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
 }
@@ -50,7 +50,7 @@ void karatsubaMultiplication(Polynomial* firstPolynomial, Polynomial* secondPoly
             *firstPolynomial, *secondPolynomial);
     auto end = std::chrono::steady_clock::now();
     std::cout << "Karatsuba multiplication result:\n";
-    karatsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
+    // karatsubaPolynomialMultiplicationResult.print(POLYNOMIAL_PRINT_FLAG);
     std::chrono::duration<double> elapsed_seconds = end-start;
     std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
 }
@@ -72,14 +72,18 @@ void runMasterAndWorker(int argc, char* argv[]) {
 
         regularMultiplication(&firstPolynomial, &secondPolynomial);
 
-        firstPolynomial.print(POLYNOMIAL_PRINT_FLAG);
-        secondPolynomial.print(POLYNOMIAL_PRINT_FLAG);
+        // firstPolynomial.print(POLYNOMIAL_PRINT_FLAG);
+        // secondPolynomial.print(POLYNOMIAL_PRINT_FLAG);
 
         PolynomialArithmetic::computeMasterMultiplicationTask(firstPolynomial, secondPolynomial, size);
     } else {
         printf("I am worker process %d.\n", rank);
+        auto start = std::chrono::steady_clock::now();
         // PolynomialArithmetic::runWorkerComputingRegularMultiplication(rank);
         PolynomialArithmetic::runWorkerComputingKaratsubaMultiplication(rank);
+        auto end = std::chrono::steady_clock::now();
+        std::chrono::duration<double> elapsed_seconds = end-start;
+        std::cout << "Elapsed time: " << elapsed_seconds.count() << " seconds\n";
     }
 
     MPI_Finalize();

@@ -1,8 +1,4 @@
-# Lab 5 - Karatsuba's algorithm
-
-## Execution time plot
-
-![Execution time plot](execution_time_plot.png)
+# Lab 7 - Distributed polynomial multiplication with MPI 
 
 ## Execution time table
 
