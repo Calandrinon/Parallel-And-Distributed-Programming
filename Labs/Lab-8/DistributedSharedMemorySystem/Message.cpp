@@ -32,5 +32,3 @@ std::vector<std::string> Message::getMessageTokens(std::string message) {
 
     return segmentList;
 }
-
-

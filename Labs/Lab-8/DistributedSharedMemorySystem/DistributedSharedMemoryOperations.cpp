@@ -17,7 +17,7 @@ DistributedSharedMemoryOperations::DistributedSharedMemoryOperations() {
 }
 
 void DistributedSharedMemoryOperations::updateResource(std::string variableName, int value) {
-    std::unique_lock lock(this->mutex);
+    std::unique_lock<std::mutex> lock(this->mutex);
 
     this->setVariable(variableName, value);
     std::string message = Message::serializeUpdateMessage(variableName, value);
@@ -35,7 +35,7 @@ void
 DistributedSharedMemoryOperations::compareAndExchange(std::string variableName, int valueToBeCompared, int valueToSet) {
     int processId;
     MPI_Comm_rank(MPI_COMM_WORLD, &processId);
-    if (!subscriberTable[variableName].contains(processId))
+    if (subscriberTable[variableName].find(processId) != subscriberTable[variableName].end())
         this->notifySubscribers(variableName, Message::serializeErrorMessage(variableName, processId));
     if (this->firstVariable == valueToBeCompared && variableName == "firstVariable")
         updateResource("firstVariable", valueToSet);
@@ -65,7 +65,7 @@ void DistributedSharedMemoryOperations::notifySubscribers(std::string variableNa
     MPI_Comm_rank(MPI_COMM_WORLD, &selfId);
     for (int processId = 0; processId < numberOfProcesses; processId++) {
         std::vector<std::string> tokenList = Message::getMessageTokens(message);
-        if (processId != selfId || !(this->subscriberTable[variableName].contains(processId)))
+        if (processId != selfId || this->subscriberTable[variableName].find(processId) != this->subscriberTable[variableName].end())
             continue;
 
         const char* messageAsCharArray = message.c_str();
@@ -93,4 +93,24 @@ void DistributedSharedMemoryOperations::sendMessageToAllProcesses(std::string me
 
 void DistributedSharedMemoryOperations::end() {
     sendMessageToAllProcesses("END");
+}
+
+int DistributedSharedMemoryOperations::getFirstVariable() {
+    return this->firstVariable;
+}
+
+int DistributedSharedMemoryOperations::getSecondVariable() {
+    return this->secondVariable;
+}
+
+int DistributedSharedMemoryOperations::getThirdVariable() {
+    return this->thirdVariable;
+}
+
+int DistributedSharedMemoryOperations::getFourthVariable() {
+    return this->fourthVariable;
+}
+
+std::map<std::string, std::set<int>> DistributedSharedMemoryOperations::getSubscriberTable() {
+    return this->subscriberTable;
 }

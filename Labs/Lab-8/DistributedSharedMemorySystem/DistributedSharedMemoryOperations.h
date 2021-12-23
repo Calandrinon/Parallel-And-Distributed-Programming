@@ -24,6 +24,11 @@ class DistributedSharedMemoryOperations {
         void notifySubscribers(std::string variableName, std::string message);
         void sendMessageToAllProcesses(std::string message);
         void end();
+        int getFirstVariable();
+        int getSecondVariable();
+        int getThirdVariable();
+        int getFourthVariable();
+        std::map<std::string, std::set<int>> getSubscriberTable();
 };
 
 
