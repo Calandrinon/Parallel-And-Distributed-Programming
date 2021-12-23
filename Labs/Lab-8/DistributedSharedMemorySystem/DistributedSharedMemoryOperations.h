@@ -12,7 +12,7 @@ class DistributedSharedMemoryOperations {
     private:
         std::map<std::string, std::set<int>> subscriberTable;
         int firstVariable, secondVariable, thirdVariable, fourthVariable;
-        std::mutex mutex;
+        std::mutex mutex, subscriptionMutex, synchronizationMutex;
 
     public:
         DistributedSharedMemoryOperations();

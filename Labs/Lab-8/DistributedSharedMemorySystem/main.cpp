@@ -9,7 +9,7 @@ void printTable(DistributedSharedMemoryOperations* dsmOperations) {
     int processId;
     MPI_Comm_rank(MPI_COMM_WORLD, &processId);
 
-    printf("Process %d has: firstVariable=%d, secondVariable=%d, thirdVariable=%d, fourthVariable=%d", processId,
+    printf("Process %d has: firstVariable=%d, secondVariable=%d, thirdVariable=%d, fourthVariable=%d\n", processId,
            dsmOperations->getFirstVariable(), dsmOperations->getSecondVariable(), dsmOperations->getThirdVariable(),
            dsmOperations->getFourthVariable());
 
@@ -23,7 +23,7 @@ void printTable(DistributedSharedMemoryOperations* dsmOperations) {
             subscribersString += std::to_string(subscriber);
         }
 
-        printf("Subscribers of variable %s: %s", it->first.c_str(), subscribersString.c_str());
+        printf("Subscribers of variable %s: %s\n", it->first.c_str(), subscribersString.c_str());
     }
 }
 

@@ -48,14 +48,16 @@ DistributedSharedMemoryOperations::compareAndExchange(std::string variableName, 
 }
 
 void DistributedSharedMemoryOperations::subscribe(std::string variableName) {
+    std::unique_lock<std::mutex> lock(subscriptionMutex);
     int processId;
     MPI_Comm_rank(MPI_COMM_WORLD, &processId);
     subscriberTable[variableName].insert(processId);
-    std::string message = "SUBSCRIBE," + variableName + "," + std::to_string(processId);
+    std::string message = Message::serializeSubscriptionMessage(variableName, processId);
     sendMessageToAllProcesses(message);
 }
 
 void DistributedSharedMemoryOperations::synchronize(std::string variableName, int processId) {
+    std::unique_lock<std::mutex> lock(synchronizationMutex);
     this->subscriberTable[variableName].insert(processId);
 }
 
@@ -92,7 +94,7 @@ void DistributedSharedMemoryOperations::sendMessageToAllProcesses(std::string me
 }
 
 void DistributedSharedMemoryOperations::end() {
-    sendMessageToAllProcesses("END");
+    sendMessageToAllProcesses(Message::serializeEndMessage());
 }
 
 int DistributedSharedMemoryOperations::getFirstVariable() {
