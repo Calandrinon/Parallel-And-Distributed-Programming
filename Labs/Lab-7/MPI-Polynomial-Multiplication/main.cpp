@@ -6,7 +6,7 @@
 #include <chrono>
 #include "mpi.h"
 
-#define POLYNOMIAL_LENGTH 8191 // must be of the form (2^n - 1)
+#define POLYNOMIAL_LENGTH 1023 // must be of the form (2^n - 1)
 #define POLYNOMIAL_PRINT_FLAG true
 
 std::tuple<Polynomial, Polynomial> readPolynomials(std::string filename) {

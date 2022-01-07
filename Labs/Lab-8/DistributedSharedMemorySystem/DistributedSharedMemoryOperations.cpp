@@ -66,7 +66,6 @@ void DistributedSharedMemoryOperations::notifySubscribers(std::string variableNa
     MPI_Comm_size(MPI_COMM_WORLD, &numberOfProcesses);
     MPI_Comm_rank(MPI_COMM_WORLD, &selfId);
     for (int processId = 0; processId < numberOfProcesses; processId++) {
-        std::vector<std::string> tokenList = Message::getMessageTokens(message);
         if (processId != selfId || this->subscriberTable[variableName].find(processId) != this->subscriberTable[variableName].end())
             continue;
 

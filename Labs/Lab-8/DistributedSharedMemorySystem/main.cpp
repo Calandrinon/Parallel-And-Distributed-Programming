@@ -73,7 +73,6 @@ int main(int argc, char* argv[]) {
             dsmOperations.subscribe("firstVariable");
             dsmOperations.subscribe("secondVariable");
             dsmOperations.subscribe("thirdVariable");
-            dsmOperations.subscribe("fourthVariable");
             dsmOperations.compareAndExchange("firstVariable", 1, 11);
             dsmOperations.compareAndExchange("secondVariable", 2, 22);
             dsmOperations.end();
